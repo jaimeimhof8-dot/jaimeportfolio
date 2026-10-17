@@ -1,0 +1,71 @@
+---
+import CopyButton from './CopyButton.astro';
+import { nav, contact, social, person, mailto } from '../config';
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="col">
+    <h2 class="t-h6">Seiten</h2>
+    <ul>{nav.map((item) => <li><a href={item.href}>{item.label}</a></li>)}</ul>
+  </div>
+  <div class="col col--contact">
+    <h2 class="t-h6">Kontakt</h2>
+    <ul>
+      <li class="mail"><a href={mailto}>{contact.email}</a> <CopyButton text={contact.email} /></li>
+      <li><a href={contact.phoneHref}>{contact.phoneDisplay}</a></li>
+    </ul>
+  </div>
+  <div class="col">
+    <h2 class="t-h6">Standort</h2>
+    <ul>
+      {contact.showStreetAddress && contact.streetAddress && <li>{contact.streetAddress}</li>}
+      <li>{contact.zip} {person.city}</li>
+      <li>{person.country}</li>
+    </ul>
+  </div>
+  <div class="col">
+    <h2 class="t-h6">Social</h2>
+    <ul>
+      <li><a href={social.instagram} rel="me noopener" target="_blank">Instagram</a></li>
+      <li><a href={social.linkedin} rel="me noopener" target="_blank">LinkedIn</a></li>
+    </ul>
+  </div>
+  <p class="t-h6 copy">{year} © {person.logo}</p>
+</footer>
+
+<style>
+  .footer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 20px;
+    padding: 60px 20px;
+    border-top: 1px solid var(--line);
+    background: var(--bg);
+  }
+  .col--contact { grid-column: 1 / -1; }
+  ul { list-style: none; margin: 12px 0 0; padding: 0; }
+  li {
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 400;
+    line-height: 1.6;
+    letter-spacing: -0.01em;
+    color: var(--white);
+  }
+  li + li { margin-top: 6px; }
+  li a { color: var(--text); background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.3s var(--ease); }
+  li a:hover { background-size: 100% 1px; }
+  .mail { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+  .copy { grid-column: 1 / -1; white-space: nowrap; }
+
+  @media (min-width: 810px) {
+    .footer {
+      grid-template-columns: 1fr 1.6fr 1fr 1fr;
+      gap: 40px calc(40 * var(--u));
+      padding: 72px var(--pad) 48px;
+    }
+    .col--contact { grid-column: auto; }
+    .copy { grid-column: 1 / -1; padding-top: 24px; border-top: 1px solid var(--line); }
+  }
+</style>

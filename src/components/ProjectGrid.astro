@@ -1,0 +1,63 @@
+---
+import { Picture } from 'astro:assets';
+import type { Project } from '../data/projects';
+
+interface Props {
+  projects: Project[];
+  // Works page: one card per row, full width.
+  wide?: boolean;
+  headingLevel?: 2 | 3;
+}
+
+const { projects, wide = false, headingLevel = 3 } = Astro.props;
+const Heading = headingLevel === 2 ? 'h2' : 'h3';
+---
+
+<ul class:list={['grid', { wide }]}>
+  {projects.map((p) => (
+    <li>
+      <a class="card" href={`/projects/${p.slug}/`}>
+        <div class="media">
+          <Picture
+            formats={['avif', 'webp']}
+            src={p.cover.src}
+            alt={p.cover.alt}
+            widths={wide ? [700, 1240, 1920] : [400, 700, 1200]}
+            sizes={wide ? '(min-width: 810px) 86vw, 90vw' : '(min-width: 810px) 42vw, 90vw'}
+            loading="lazy"
+            style={p.cover.pos ? `object-position:${p.cover.pos}` : undefined}
+          />
+        </div>
+        <Heading class="t-h4">{p.title}<span class="arrow" aria-hidden="true">→</span></Heading>
+        <p class="t-h6">{p.category} · {p.year}</p>
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .grid {
+    display: grid;
+    gap: 41px;
+    margin: 0;
+    padding: 0 20px;
+    list-style: none;
+  }
+  .card { display: block; outline: none; }
+  .media { aspect-ratio: 350 / 207; overflow: hidden; border-radius: 4px; background: var(--field); }
+  .media :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+  .card:hover .media :global(img) { transform: scale(1.04); }
+  .card:focus-visible .media { outline: 2px solid var(--white); outline-offset: 4px; }
+  .t-h4 { display: flex; align-items: baseline; gap: 10px; margin-top: 20px; }
+  .arrow { opacity: 0; transform: translateX(-8px); transition: opacity 0.3s var(--ease), transform 0.3s var(--ease); }
+  .card:hover .arrow, .card:focus-visible .arrow { opacity: 1; transform: none; }
+  .t-h6 { margin-top: 8px; }
+  @media (hover: none) { .arrow { opacity: 1; transform: none; } }
+
+  @media (min-width: 810px) {
+    .grid { grid-template-columns: 1fr 1fr; gap: 40px; padding-inline: var(--pad); }
+    .media { aspect-ratio: 600 / 355; }
+    .wide { grid-template-columns: 1fr; }
+    .wide .media { aspect-ratio: 1240 / 733; }
+  }
+</style>

@@ -1,0 +1,121 @@
+---
+import { Picture } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import YouTube from '../../components/YouTube.astro';
+import { projects, nextProjects, type Project, type Img } from '../../data/projects';
+
+export function getStaticPaths() {
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+interface Props { project: Project }
+const { project: p } = Astro.props;
+const more = nextProjects(p.slug);
+const pic = (img: Img, wide = false) => ({
+  src: img.src,
+  alt: img.alt,
+  widths: wide ? [700, 1240, 1920] : [400, 700, 1220],
+  sizes: wide ? '(min-width: 810px) 86vw, 90vw' : '(min-width: 810px) 43vw, 90vw',
+  style: img.pos ? `object-position:${img.pos}` : undefined,
+});
+---
+
+<Base title={p.title} description={p.text}>
+  <article>
+    <header class="head">
+      <p class="t-h6">{p.category}</p>
+      <h1 class="title">{p.title}</h1>
+    </header>
+
+    <div class="pair">
+      <div class="img"><Picture formats={['avif', 'webp']} {...pic(p.lead ?? p.cover)} loading="eager" fetchpriority="high" /></div>
+      <div class="img"><Picture formats={['avif', 'webp']} {...pic(p.second)} loading="eager" /></div>
+    </div>
+
+    <dl class="meta">
+      <div><dt class="t-h6">Branche</dt><dd class="t-h5">{p.industry}</dd></div>
+      <div><dt class="t-h6">Jahr</dt><dd class="t-h5">{p.year}</dd></div>
+      <div><dt class="t-h6">Kunde</dt><dd class="t-h5">{p.client}</dd></div>
+      <div><dt class="t-h6">Rolle</dt><dd class="t-h5">{p.role}</dd></div>
+    </dl>
+
+    <p class="text">{p.text}</p>
+
+    {p.youtube && (
+      <div class="video"><YouTube id={p.youtube.id} title={p.title} poster={p.youtube.poster} /></div>
+    )}
+
+    {p.gallery && (
+      <div class="gallery">
+        <div class="img full"><Picture formats={['avif', 'webp']} {...pic(p.gallery[0], true)} loading="lazy" /></div>
+        <div class="img"><Picture formats={['avif', 'webp']} {...pic(p.gallery[1])} loading="lazy" /></div>
+        <div class="img"><Picture formats={['avif', 'webp']} {...pic(p.gallery[2])} loading="lazy" /></div>
+        <div class="img full"><Picture formats={['avif', 'webp']} {...pic(p.gallery[3], true)} loading="lazy" /></div>
+      </div>
+    )}
+  </article>
+
+  <section class="more" aria-labelledby="more-title">
+    <h2 id="more-title" class="more-title">Weitere Projekte</h2>
+    <ul>
+      {more.map((m) => (
+        <li>
+          <a href={`/projects/${m.slug}/`}>
+            <div class="thumb"><Picture formats={['avif', 'webp']} src={m.cover.src} alt="" widths={[300, 728]} sizes="(min-width: 810px) 364px, 150px" loading="lazy" /></div>
+            <h3>{m.title}</h3>
+            <p class="t-h6">{m.category} · {m.year}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+    <a class="pill all" href="/projects/">Alle Arbeiten</a>
+  </section>
+</Base>
+
+<style>
+  article { padding: 120px 20px 0; }
+  .head { text-align: center; }
+  .head .t-h6 { margin-bottom: 10px; }
+  .title { font-size: 28px; font-weight: 600; line-height: 1.1; letter-spacing: -0.02em; }
+
+  .pair, .gallery { display: grid; gap: 20px; }
+  .pair { margin-top: 39px; }
+  .img { aspect-ratio: 610 / 407; overflow: hidden; }
+  .img :global(img) { width: 100%; height: 100%; object-fit: cover; }
+
+  .meta { display: grid; grid-template-columns: 1fr 1fr; gap: 28px 16px; margin: 40px 0 0; padding-block: 28px; border-block: 1px solid var(--line); text-align: center; }
+  dd { margin: 6px 0 0; text-wrap: balance; }
+
+  .text { max-width: 58ch; margin: 48px auto 0; text-align: center; }
+  .video, .gallery { margin-top: 56px; }
+
+  .more { padding: 40px 25px 60px; text-align: center; }
+  .more-title { font-size: 22px; font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; }
+  .more ul { display: flex; justify-content: center; gap: 40px; margin: 68px 0 0; padding: 0; list-style: none; }
+  .more li { width: 150px; }
+  .thumb { aspect-ratio: 364 / 260; overflow: hidden; border-radius: 8px; }
+  .thumb :global(img) { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
+  .more li a { display: block; border-radius: 8px; }
+  .more li a:hover .thumb :global(img) { transform: scale(1.04); }
+  .more li a:focus-visible { outline-offset: 6px; }
+  .more h3 { margin-top: 12px; font-size: 16px; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; }
+  .more .t-h6 { margin-top: 6px; font-size: 12px; }
+  .all { margin-top: 56px; }
+
+  @media (min-width: 810px) {
+    article { padding: 180px var(--pad) 0; }
+    .title { max-width: 800px; margin-inline: auto; font-size: clamp(56px, 6.7vw, 96px); letter-spacing: -0.02em; }
+    .pair { grid-template-columns: 1fr 1fr; }
+    .meta { grid-template-columns: repeat(4, auto); justify-content: center; gap: 0 calc(72 * var(--u)); max-width: 1000px; margin: 100px auto 0; padding-block: 32px; }
+    .more .t-h6 { font-size: 14px; }
+    .text { margin-top: 60px; }
+    .video, .gallery { margin-top: 100px; }
+    .gallery { grid-template-columns: 1fr 1fr; }
+    .gallery .full { grid-column: 1 / -1; aspect-ratio: 1240 / 827; }
+    .more { padding: 100px 0 128px; }
+    .more-title { font-size: 40px; }
+    .more ul { gap: calc(198 * var(--u)); }
+    .more li { width: calc(364 * var(--u)); }
+    .more h3 { font-size: 40px; font-weight: 700; white-space: nowrap; margin-inline: -50%; }
+  }
+</style>

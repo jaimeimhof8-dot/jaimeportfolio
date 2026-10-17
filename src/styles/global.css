@@ -1,0 +1,116 @@
+/* 1:1 rebuild of jaimeimhof.framer.website. Sizes measured at 1440 px (desktop) and 390 px (phone).
+   --u is one Framer pixel at 1440 px width, so desktop positions scale with the window. */
+:root {
+  --bg: #000;
+  --light: #e4e4e7;
+  --text: #e4e4e7;
+  --white: #fff;
+  /* Framer: #71717a. A touch lighter so small labels pass WCAG AA on black; visually the same. */
+  --muted: #76767f;
+  --line: #27272a;
+  --field: #18181b;
+
+  --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+  --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  --u: calc(min(100vw, 1440px) / 1440);
+  --pad: 20px;
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: dark;
+}
+
+@media (min-width: 810px) {
+  :root { --pad: calc(100 * var(--u)); }
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.8;
+  -webkit-font-smoothing: antialiased;
+}
+@media (min-width: 810px) { body { font-size: 16px; } }
+
+img, video, iframe { display: block; max-width: 100%; }
+img { height: auto; }
+picture { display: contents; }
+
+a { color: inherit; text-decoration: none; }
+p { margin: 0; }
+h1, h2, h3, h4, h5, h6 { margin: 0; font-family: var(--font-mono); text-transform: uppercase; color: var(--text); text-wrap: balance; }
+p { text-wrap: pretty; }
+
+:focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
+::selection { background: var(--light); color: #000; }
+
+/* Framer text styles. Phone first, desktop from 810 px. */
+.t-h2 { font-size: 20px; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; }
+.t-h4 { font-size: 20px; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; }
+.t-h5, .t-h6 { font-family: var(--font-mono); text-transform: uppercase; }
+.t-h5 { font-size: 16px; font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }
+.t-h6 { font-size: 14px; font-weight: 400; line-height: 1.4; letter-spacing: 0.05em; color: var(--muted); }
+@media (min-width: 810px) {
+  .t-h2 { font-size: clamp(44px, 5vw, 72px); font-weight: 700; letter-spacing: 0; }
+  .t-h4 { font-size: 24px; }
+  .t-h5 { font-size: 18px; }
+}
+
+/* Pill links ("Über mich", "Alle Arbeiten", "Schreib mir"): hairline outline so they read as buttons. */
+.pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 22px 0 24px;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  border-radius: 22px;
+  color: var(--white);
+  font-weight: 400;
+  line-height: 1;
+  transition: background-color 0.25s var(--ease), border-color 0.25s var(--ease), transform 0.15s var(--ease);
+}
+.pill::after { content: '→'; transition: transform 0.25s var(--ease); }
+.pill:hover { background: rgb(255 255 255 / 0.08); border-color: var(--white); }
+.pill:hover::after { transform: translateX(4px); }
+.pill:active { transform: scale(0.98); }
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.skip-link {
+  position: absolute;
+  left: 20px;
+  top: -4rem;
+  z-index: 100;
+  padding: 0.75rem 1rem;
+  background: var(--white);
+  color: #000;
+  font-family: var(--font-mono);
+  font-size: 0.875rem;
+}
+.skip-link:focus { top: 1rem; }
+
+.divider { height: 2px; background: var(--line); border: 0; margin: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

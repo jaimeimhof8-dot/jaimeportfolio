@@ -1,0 +1,148 @@
+---
+import { nav, person } from '../config';
+const path = Astro.url.pathname;
+---
+
+<!-- Framer header: fixed, blurred, brand left, links from 44 % of the width. Phone: menu button. -->
+<header class="topbar">
+  <a class="brand" href="/" aria-label={`${person.name}, Startseite`}>{person.logo}</a>
+  <button class="menu-btn" type="button" aria-expanded="false" aria-controls="hauptmenue">
+    <span class="visually-hidden">Menü</span>
+    <span class="bars" aria-hidden="true"></span>
+  </button>
+  <nav id="hauptmenue" aria-label="Hauptnavigation">
+    {nav.map((item) => (
+      <a href={item.href} aria-current={path.startsWith(item.href) ? 'page' : undefined}>{item.label}</a>
+    ))}
+  </nav>
+</header>
+
+<style>
+  .topbar {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    padding-inline: 20px;
+    color: var(--text);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: color 0.2s var(--ease);
+  }
+  /* Over the hero: no blur; each item is black on the grey block and white (with a soft shadow) on a photo. */
+  .topbar.is-light:not(.is-open) { color: #000; backdrop-filter: none; -webkit-backdrop-filter: none; }
+  .topbar.is-light:not(.is-open) .on-photo { color: #fff; text-shadow: 0 1px 12px rgb(0 0 0 / 0.5); }
+  .brand, nav a, .menu-btn { transition: color 0.2s var(--ease); }
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-family: var(--font-mono);
+    font-size: 16px;
+    letter-spacing: -0.02em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+  nav a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    font-size: 16px;
+    font-weight: 300;
+  }
+  nav a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 10px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.3s var(--ease);
+  }
+  nav a:hover::after, nav a[aria-current='page']::after { transform: scaleX(1); transform-origin: left; }
+
+  .menu-btn {
+    margin-left: auto;
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: none;
+    color: inherit;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+  }
+  .bars, .bars::before {
+    display: block;
+    width: 22px;
+    height: 1.5px;
+    background: currentColor;
+    transition: transform 0.25s var(--ease);
+  }
+  .bars { position: relative; transform: translateY(-4px); }
+  .bars::before { content: ''; position: absolute; top: 8px; }
+  .topbar.is-open .bars { transform: translateY(0) rotate(45deg); }
+  .topbar.is-open .bars::before { transform: translateY(-8px) rotate(-90deg); }
+
+  @media (max-width: 809px) {
+    nav {
+      position: absolute;
+      top: 64px;
+      left: 0;
+      right: 0;
+      display: none;
+      flex-direction: column;
+      padding: 8px 20px 20px;
+      background: rgb(0 0 0 / 0.92);
+      color: var(--text);
+    }
+    .topbar.is-open nav { display: flex; }
+  }
+
+  @media (min-width: 810px) {
+    .topbar { padding-inline: calc(100 * var(--u)); }
+    .brand { font-size: 18px; }
+    .menu-btn { display: none; }
+    nav { position: absolute; left: 44.1%; display: flex; gap: 40px; }
+  }
+</style>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('.topbar');
+  const button = bar?.querySelector<HTMLButtonElement>('.menu-btn');
+  button?.addEventListener('click', () => {
+    const open = !bar!.classList.contains('is-open');
+    bar!.classList.toggle('is-open', open);
+    button.setAttribute('aria-expanded', String(open));
+  });
+
+  // Home hero: the bar has no background, so every item checks whether a photo or the grey block is behind it.
+  const light = document.querySelector<HTMLElement>('.on-light');
+  if (bar && light) {
+    const items = [...bar.querySelectorAll<HTMLElement>('.brand, nav a, .menu-btn')];
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const onHero = light.getBoundingClientRect().bottom > bar.offsetHeight;
+      bar.classList.toggle('is-light', onHero);
+      if (!onHero) return;
+      for (const el of items) {
+        const r = el.getBoundingClientRect();
+        if (!r.width) continue;
+        const behind = document.elementsFromPoint(r.left + r.width / 2, r.top + r.height / 2);
+        el.classList.toggle('on-photo', behind.some((node) => node.classList.contains('side')));
+      }
+    };
+    // Two frames: the hero script resizes the photos in the first one, then the check sees the new layout.
+    const request = () => { if (!ticking) { ticking = true; requestAnimationFrame(() => requestAnimationFrame(update)); } };
+    update();
+    window.addEventListener('scroll', request, { passive: true });
+    window.addEventListener('resize', request);
+  }
+</script>

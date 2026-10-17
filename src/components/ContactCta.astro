@@ -1,0 +1,66 @@
+---
+import { Picture } from 'astro:assets';
+import { mailto } from '../config';
+import s1 from '../../material/framer/strip/freundinnen.jpg';
+import s2 from '../../material/framer/strip/buehne-nebel.jpg';
+import s3 from '../../material/framer/strip/bassist.jpg';
+import s4 from '../../material/framer/strip/saenger-gitarre.jpg';
+import s5 from '../../material/framer/strip/burger-hand.jpg';
+import s6 from '../../material/framer/strip/zwei-freundinnen.jpg';
+
+const strip = [
+  { src: s1 },
+  { src: s2 },
+  { src: s3, pos: '52.8% 31.2%' },
+  { src: s4, pos: '42.2% 31.8%' },
+  { src: s5 },
+  { src: s6 },
+];
+---
+
+<!-- Framer closing section: question, "Schreib mir", tilted moving photo strip. -->
+<section class="cta" aria-labelledby="cta-title">
+  <h2 id="cta-title" class="t-h2">Hast du ein Projekt oder eine<br /> Stelle im Kopf?</h2>
+  <a class="pill" href={mailto}>Schreib mir</a>
+  <div class="strip" aria-hidden="true">
+    <ul class="track">
+      {[...strip, ...strip].map((img) => (
+        <li><Picture formats={['avif', 'webp']} src={img.src} alt="" widths={[320, 640]} sizes="310px" loading="lazy" style={img.pos ? `object-position:${img.pos}` : undefined} /></li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .cta {
+    padding-top: 100px;
+    text-align: center;
+    overflow: hidden;
+  }
+  h2 { padding-inline: 20px; }
+  .pill { margin-top: 40px; }
+  .strip {
+    margin: 70px 15px 0;
+    padding-block: 2px 60px;
+    transform: rotate(-3deg);
+    mask-image: linear-gradient(90deg, #000 85%, transparent);
+    -webkit-mask-image: linear-gradient(90deg, #000 85%, transparent);
+  }
+  .track {
+    display: flex;
+    gap: 10px;
+    width: max-content;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    animation: slide 40s linear infinite;
+  }
+  li { width: 300px; height: 208px; flex: none; }
+  li :global(img) { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
+  @keyframes slide { to { transform: translateX(calc(-50% - 5px)); } }
+
+  @media (min-width: 810px) {
+    .pill { margin-top: 41px; }
+    .strip { margin: 88px calc(36 * var(--u)) 0; padding-bottom: 65px; }
+  }
+</style>

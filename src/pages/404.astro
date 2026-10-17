@@ -1,0 +1,15 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Seite nicht gefunden" noindex>
+  <section class="nf" aria-labelledby="page-title">
+    <p class="t-h6">404</p>
+    <h1 id="page-title" class="t-h2">Diese Seite gibt es nicht</h1>
+    <a class="pill" href="/">Zur Startseite</a>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 80svh; display: grid; place-content: center; justify-items: center; gap: 30px; padding: 120px 20px 60px; text-align: center; }
+</style>
