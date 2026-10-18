@@ -157,7 +157,7 @@ Gilt für: IPA, Event Video (GPMC), Event Fotografie (BlessThun), Capoeira (CAPU
 - **Hero auf dem Handy:** Haltephase des Namens (360svh) auf einem echten Handy mit kräftigem Wisch prüfen und die Höhe in `src/pages/index.astro` anpassen. Ob sie leer wirkt, lässt sich nur am Gerät beurteilen.
 - **Pause-Taste** für Fotoschau und Fotostreifen gibt es nicht. Beide pausieren ausser Sicht und bei `prefers-reduced-motion`, aber nicht auf Wunsch.
 - **Projekttexte** ausfüllen (siehe «Fragen für die Projektseiten»).
-- **Ungenutzte Dateien in `material/`** (20 Dateien, rund 12 MB) sind noch nicht gelöscht, sie warten auf Jaimes Ok: `about/aletsch.jpg`, `about/portrait-bw.jpg`, `home/luftbild-strasse.jpg`, `projects/capoeira-capu/{01.jpg, preview.mp4}`, `projects/event-foto-blessthun/{01,07,08,09}.jpg`, `projects/event-video-gpmc/preview.mp4`, `projects/tunis-streetlife/{01,07,08,09}.jpg`, `reels/01-gym.{jpg,mp4}`, `showreel/{poster.jpg, showreel-960.mp4, showreel-1600.mp4}`, `site/yt-SxO9FMYEWg8.jpg`. Das Reel «01-gym» zeigt eine Person, deren Einwilligung unbestätigt ist.
+- **Reel `reels/01-gym.{jpg,mp4}`** ist aktuell nirgends eingebunden, bleibt aber bewusst im Repo. Es zeigt eine Person, deren Einwilligung unbestätigt ist: erst klären, bevor es gezeigt wird.
 - **Lokaler Branch `master`** enthält drei Commits, die nicht in `main` sind (alter Framer-Nachbau). Er wurde deshalb nicht gelöscht.
 
 Frühere Stände: `SPRINT_LOG.md` ist das aktuelle Änderungsprotokoll. Die Version mit scrollgesteuertem Sonnenuntergang liegt im Git-Tag `sonnenuntergang-version`.
