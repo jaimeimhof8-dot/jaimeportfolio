@@ -97,6 +97,8 @@ const right = [
     --q: 0;
   }
   /* Photos sit above the name: while they slide away they uncover it instead of covering text with text. */
+  /* Phone: the grey block is open after 1 screen, then the name stays pinned for another 1.6 screens, so a fast swipe doesn't fly past it. */
+  @media (max-width: 809px) { .hero { height: 360svh; } }
   .side { position: relative; z-index: 2; flex: none; height: 50%; width: calc((1 - var(--p)) * 100%); overflow: hidden; background: #fff; }
   .side--b { margin-left: auto; }
   /* Soft shade under the top bar so the navigation stays readable on bright photos. */
