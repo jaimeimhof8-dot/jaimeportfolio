@@ -24,7 +24,7 @@ const strip = [
   <a class="pill" href={mailto}>Schreib mir</a>
   <div class="strip" aria-hidden="true">
     <ul class="track">
-      {[...strip, ...strip].map((img) => (
+      {strip.map((img) => (
         <li><Picture formats={['avif', 'webp']} src={img.src} alt="" widths={[320, 640]} sizes="310px" loading="lazy" style={img.pos ? `object-position:${img.pos}` : undefined} /></li>
       ))}
     </ul>
@@ -53,8 +53,9 @@ const strip = [
     margin: 0;
     padding: 0;
     list-style: none;
-    animation: slide 40s linear infinite;
   }
+  /* Only runs once the script has appended the copy that makes the loop seamless. */
+  .track.is-running { animation: slide 40s linear infinite; }
   li { width: 300px; height: 208px; flex: none; }
   li :global(img) { width: 100%; height: 100%; object-fit: cover; border-radius: 4px; }
   .track.is-paused { animation-play-state: paused; }
@@ -69,6 +70,13 @@ const strip = [
 <script>
   // The strip only runs while it is on screen.
   document.querySelectorAll<HTMLElement>('.track').forEach((track) => {
+    // The seamless loop needs every photo twice. The copy is added here, so the page itself lists each photo once.
+    [...track.children].forEach((li) => {
+      const copy = li.cloneNode(true) as HTMLElement;
+      copy.setAttribute('aria-hidden', 'true');
+      track.append(copy);
+    });
+    track.classList.add('is-running');
     new IntersectionObserver(([entry]) => track.classList.toggle('is-paused', !entry.isIntersecting)).observe(track);
   });
 </script>
