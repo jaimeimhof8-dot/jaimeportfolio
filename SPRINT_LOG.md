@@ -1,5 +1,7 @@
 # Sprint-Log: Relaunch Schweizer Editorial-Minimalismus
 
+> **Archiv.** Beschreibt einen älteren Stand (Inter, Content-Collections, Hover-Vorschau, Reels), der inzwischen durch den Framer-Nachbau ersetzt wurde. Der aktuelle Aufbau steht in `README.md`, der letzte Design-Audit in `UI_UX_AUDIT.md`.
+
 Datum: 16.10.2026 · Ausgangspunkt: Tag `sonnenuntergang-version` (0c8cc28)
 
 ## Epics

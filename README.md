@@ -1,164 +1,124 @@
 # Portfolio Jaime Imhof
 
-Statische Portfolio-Website von Jaime Imhof (Mediamatiker EFZ, Thun), gebaut mit Astro 7.
-Gestaltung: Schweizer Editorial-Minimalismus. Kein Tracking, keine Cookies, keine externen Schriften, kein separates JavaScript-Bundle. YouTube lädt erst, wenn jemand ein Video startet (youtube-nocookie.com).
+Statische Portfolio-Website von Jaime Imhof (Mediamatiker EFZ, Thun), gebaut mit Astro 7. Nachbau der Framer-Seite `jaimeimhof.framer.website`.
 
-## Gestaltung in Kürze
+Kein Tracking, keine Cookies, keine externen Schriften (alle über `@fontsource` selbst gehostet). YouTube-Videos laden erst nach einem Klick (`youtube-nocookie.com`). Die Seite braucht ausser kleinen Inline-Skripten kein JavaScript-Framework.
 
-- **Fläche:** eine dunkle Fläche `#111111`, Haarlinien `#2a2a2a`, 12er-Raster, keine Verläufe.
-- **Typografie:** Inter Variable 700 für Titel (Laufweite −0.03em, Zeilenhöhe 0.95, Platz für Ä/Ö/Ü und Unterlängen). JetBrains Mono nur für technische Labels (11–13 px, Grossbuchstaben, +0.08em, tabellarische Ziffern).
-- **Hero:** zweizeilige Headline „Jaime Imhof — Moving Image & Visual Design aus Thun.“, darunter drei Projektlinks und Metadaten (Ort, Ortszeit, Status, Kontakt). Passt ohne Scrollen auf 1440 × 900, 1280 × 720 und 390 × 844.
-- **Hover-Vorschau:** Auf Geräten mit Maus oder Trackpad erscheint beim Überfahren eines Projekts sofort ein Vorschaubild, im Hero als Breitbild in der rechten Spalte, in Listen mitlaufend am Zeiger. Auf Touch-Geräten gibt es stattdessen statische Thumbnails; die Vorschau-Ebene existiert dort gar nicht und lädt nichts.
-- **Fallstudien:** Projektseiten mit bis zu fünf Blöcken: Ausgangslage, Meine Rolle, Technisches Setup (Mono-Spec-Kasten), Workflow, Ergebnis. Fehlende Blöcke werden weggelassen.
-- **Schreib mir ↗:** schwebender, leicht magnetischer Knopf unten rechts. Er erscheint nach dem ersten Bildschirm und blendet über Kontaktbereichen und dem Footer aus.
+## Seiten
+
+| Pfad | Datei | Inhalt |
+|---|---|---|
+| `/` | `src/pages/index.astro` | Hero (zwei wechselnde Fotos, Scrollen öffnet den grauen Namensblock), «Wer bin ich», vier Arbeiten, Kontakt-Abschluss |
+| `/projects/` | `src/pages/projects/index.astro` | alle sechs Arbeiten, eine Karte pro Zeile |
+| `/projects/<slug>/` | `src/pages/projects/[slug].astro` | Projektseite: Bildpaar, Meta (Branche, Jahr, Kunde, Rolle), Text, Video oder Galerie, «Weitere Projekte» |
+| `/about/` | `src/pages/about.astro` | Über mich mit Bildkomposition |
+| `/contact/` | `src/pages/contact.astro` | E-Mail (mit Kopieren-Knopf), Telefon, Ort, Formular |
+| `/404` | `src/pages/404.astro` | Fehlerseite (noindex) |
+| `/robots.txt`, `/sitemap-index.xml` | `src/pages/robots.txt.ts`, `@astrojs/sitemap` | werden beim Build erzeugt |
 
 ## Starten
 
-Voraussetzung: Node.js 22.22 oder neuer.
+Voraussetzung: Node.js 22.22 oder neuer (siehe `.node-version`).
 
 ```bash
 npm install
-npm run dev        # Entwicklung, http://localhost:4321
+npm run dev        # Entwicklung, http://localhost:4321 (oder: astro dev --background)
 npm run build      # fertige Seite nach dist/
 npm run preview    # gebaute Seite lokal ansehen
 ```
 
-Prüfungen (für `check:a11y`, `check:smoke` und `screenshots` muss `npm run preview` laufen; benutzt den installierten Google Chrome):
+## Prüfungen
+
+Die Skripte laufen gegen `http://localhost:4321` (anderer Port: Umgebungsvariable `BASE_URL`). Sie brauchen einen laufenden Dev- oder Preview-Server und den installierten Google Chrome.
 
 ```bash
-npm run check          # Typen und Astro-Dateien
-npm run check:links    # alle Links in dist/ (nach npm run build)
-npm run check:a11y     # axe, 7 Seiten, 390 und 1440 px
-npm run check:smoke    # 21 Interaktionstests (Hero, Hover, Fallstudie, Mobile, Filter, Lightbox, Reel, 404)
-npm run screenshots    # Screenshots aller Hauptseiten nach screenshots/
+npm run check          # Typen und Astro-Dateien (astro check)
+npm run check:links    # alle Links und Bilder in dist/ (vorher npm run build)
+npm run check:a11y     # axe-core, 7 Seiten, 390 und 1440 px
+npm run check:smoke    # Interaktionstests (Hero, Menü, YouTube, Kontaktdaten, 404, robots.txt)
+npm run screenshots    # Vollseiten-Screenshots (390, 768, 1440 px) nach screenshots/
 ```
+
+Grenzen: Die Tests laufen in Playwright mit unsichtbarer Scrollleiste und `reducedMotion` bei axe. Probleme, die nur mit klassischer Windows-Scrollleiste oder mit der Hero-Animation auftreten, fangen sie nicht ab. Das bitte von Hand in Chrome prüfen.
 
 ## Aufbau
 
 ```
-material/                 Bild- und Videoquellen (Kopien von G:\, siehe material/INVENTAR.md)
-  about/                  Porträt, Aletschgletscher
-  projects/<slug>/        Bilder pro Projekt
-  reels/                  Kurzvideos 9:16
-public/                   Favicon, Touch-Icon, og.jpg (Vorschaubild für geteilte Links)
+material/                 Bildquellen (Kopien, ohne EXIF/GPS), siehe material/INVENTAR.md
+  framer/                 Bilder der Seite, nach Bereich sortiert (hero, who, about, strip, ipa, ...)
+  projects/               zusätzliche Projektbilder
+public/                   favicon.svg, apple-touch-icon.png, og.jpg (1200 × 630)
 scripts/                  Prüfskripte (Links, axe, Smoke-Test, Screenshots)
 src/
-  config.ts               ALLE Kontaktdaten, Links, Texte, Hero-Projekte, Zahlen
-  content.config.ts       Felder der Projekte (Schema)
-  content/projects/*.md   ein Projekt pro Datei
-  components/
-    Hero                  Headline, drei Projektlinks, Metadaten
-    ProjectIndex          editoriale Projektliste mit Hover-Vorschau (Varianten hero und list)
-    ContactSection        Kontaktblock (Startseite, About, Projektseiten) und Kontaktseite
-    Reels                 Kurzvideos mit Pause- und Ton-Taste
-    Gallery, YouTube, CopyEmail, FloatingCta, Header, Footer
-  scripts/time.ts         Ortszeit Thun (ohne Netzwerkabfrage)
+  config.ts               Name, Kontaktdaten, Links, Navigation, Texte, SITE_URL
+  data/projects.ts        alle Projekte (Texte, Bilder, YouTube-IDs, Reihenfolge)
   layouts/Base.astro      Grundgerüst: SEO, Open Graph, JSON-LD, Skip-Link, Schrift-Preload
-  pages/                  /, /projects/, /projects/[slug]/, /about/, /contact/, 404, robots.txt
-  styles/global.css       Farben, Schriften, Raster, Labels, Buttons
+  components/             TopBar, Footer, ProjectGrid, ContactCta, CopyButton, YouTube
+  styles/global.css       Farben, Schriften, Textstile, Pill-Knopf
+UI_UX_AUDIT.md            letzter Design-Audit mit den umgesetzten Massnahmen
 ```
 
-Bilder werden beim Build automatisch als AVIF und WebP in passenden Grössen erzeugt.
+Bilder werden beim Build automatisch als AVIF und WebP in passenden Grössen erzeugt (`<Picture>` aus `astro:assets`).
 
-## Ein Projekt ergänzen
+## Gestaltung
 
-1. Bilder nach `material/projects/<slug>/` kopieren (lange Kante höchstens 2400 px, Metadaten entfernen).
-2. Datei `src/content/projects/<slug>.md` anlegen:
+- **Farben:** schwarzer Grund `#000`, helles Zinkgrau `#e4e4e7` für Text und den Hero-Block, gedämpftes Grau `#76767f` für Labels, Linien `#27272a`.
+- **Schrift:** JetBrains Mono in Versalien für Titel und Labels, Poppins Light für Fliesstext.
+- **Raster:** `--u` ist ein Framer-Pixel bei 1440 px Breite. Desktop-Positionen skalieren damit mit dem Fenster, ab 810 px Breite gilt das Desktop-Layout.
+- **Hero:** `src/pages/index.astro`. Die Sektion ist hoch, die Bühne klebt (`position: sticky`). Ein kleines Skript setzt beim Scrollen `--p` (Öffnung des grauen Blocks) und `--q` (Name erscheint). Auf dem Handy ist die Sektion 360svh hoch, damit der Name nach dem Öffnen länger stehen bleibt. Bei `prefers-reduced-motion` gibt es keine Animation.
+- **Navigation:** Über dem Hero hat die Leiste keinen Hintergrund. Jedes Element prüft, ob ein Foto oder der graue Block dahinter liegt, und wird weiss oder schwarz.
 
-```md
----
-title: Projektname
-subtitle: Kleine Zeile über dem Titel # optional
-category: Video # Video oder Foto (steuert den Filter)
-branche: Sport
-jahr: "2026"
-kunde: Kundenname
-rolle: Kamera, Schnitt, Grading
-ausgangslage: Was der Kunde brauchte und warum. # optional
-workflow: # optional, ein Schritt pro Zeile
-  - Konzept und Storyboard
-  - Dreh
-  - Schnitt und Grading
-ergebnis: Was am Ende herauskam, mit echten Zahlen. # optional
-setup: # optional, Spec-Kasten
-  - label: Kamera
-    value: Sony a7 III
-order: 5 # Reihenfolge
-personal: false # true = als persönlich markiert
-youtubeId: abc123XYZ # optional, ID aus dem YouTube-Link
-cover: ../../../material/projects/<slug>/01.jpg
-coverAlt: Was auf dem Titelbild zu sehen ist
-gallery:
-  - src: ../../../material/projects/<slug>/02.jpg
-    alt: Was auf dem Bild zu sehen ist
-draft: false # true = nicht veröffentlicht
----
+## Inhalte ändern
 
-Ein bis zwei Sätze als Einleitung.
-```
+### Texte und Kontaktdaten
 
-Die drei Projekte im Hero stehen in `src/config.ts` unter `heroProjects` (Slugs in Reihenfolge).
+Alles steht in `src/config.ts`: Name, E-Mail, Telefon, Ort, Instagram, LinkedIn, Navigation, About-Text, Einleitungen. Einige Einträge dort (Werdegang, Tools, Sprachen, Eckdaten, `cvUrl`) werden aktuell noch nicht angezeigt.
 
-## Kurzvideos (Reels)
-
-In `material/reels/` pro Video drei Dateien mit gleichem Namen: `02-name.mp4` (9:16, H.264), `02-name.jpg` (Poster), `02-name.txt` (ein Satz Hook). Höchstens drei werden gezeigt. Ohne Videos verschwindet der Abschnitt.
-
-```bash
-ffmpeg -i original.mp4 -map_metadata -1 -vf "scale=720:-2" -c:v libx264 -crf 26 -c:a aac -b:a 96k -movflags +faststart material/reels/02-name.mp4
-```
-
-## Texte und Kontaktdaten ändern
-
-Alles steht in `src/config.ts`: Name, Headline, E-Mail, Telefon, Ort, Instagram, LinkedIn, Navigation, About-Text, Zahlen, Werkzeuge, Sprachen.
-
-- Strasse: wird nur gezeigt, wenn `showStreetAddress: true` und `streetAddress` ausgefüllt ist (Standard: aus).
+- Strasse: erscheint nur, wenn `showStreetAddress: true` und `streetAddress` ausgefüllt ist (Standard: aus).
 - Lebenslauf: PDF ohne Geburtsdatum und Strasse nach `public/` legen und `cvUrl` setzen.
-- Domain: `SITE_URL` anpassen (Sitemap, Canonical-Links, Vorschaubild).
+
+### Ein Projekt ergänzen
+
+1. Bilder nach `material/framer/<projekt>/` oder `material/projects/<slug>/` kopieren (lange Kante höchstens 2400 px, EXIF und GPS entfernen).
+2. In `src/data/projects.ts` die Bilder importieren und einen Eintrag in `projects` anlegen:
+
+```ts
+{
+  slug: 'beispiel',
+  title: 'Beispiel',
+  category: 'Video',            // 'Video' oder 'Fotografie'
+  industry: 'Sport',
+  year: '2026',
+  client: 'Kundenname',
+  role: 'Kamera, Schnitt',      // nur, was wirklich stimmt
+  text: 'Kurzer Projekttext.',
+  cover: { src: beispielCover, alt: 'Was auf dem Bild zu sehen ist' },
+  second: { src: beispielZwei, alt: '...' },
+  youtube: { id: 'abc123XYZ', poster: beispielPoster },   // optional, Video-Projekte
+  gallery: [/* genau 4 Bilder */],                         // optional, Foto-Projekte
+}
+```
+
+Die Reihenfolge im Array bestimmt die Reihenfolge auf der Arbeiten-Seite. Die Startseite zeigt die ersten vier (`featured`), «Weitere Projekte» die zwei nächsten.
+
+Bilder immer mit Alt-Text beschreiben, ohne Namen von Personen.
 
 ## Deployment
 
-### Cloudflare Pages (gratis)
+Die Seite ist statisch (`dist/`) und läuft auf jedem Static Hosting, z.B. Cloudflare Pages oder Netlify.
 
-1. Projekt auf GitHub hochladen (privates Repository reicht).
-2. dash.cloudflare.com, Workers & Pages, Create, Pages, Connect to Git, Repository wählen.
-3. Framework preset: Astro. Build command: `npm run build`. Output directory: `dist`.
-4. Settings, Environment variables: `NODE_VERSION` = `22`.
-5. Deploy. Die Seite ist danach unter `<projektname>.pages.dev` erreichbar; jeder Push baut neu.
+1. Repository mit dem Hoster verbinden.
+2. Build command: `npm run build`, Output directory: `dist`.
+3. Umgebungsvariable `NODE_VERSION` = `22`.
+4. Eigene Domain im Hoster eintragen, danach **`SITE_URL` in `src/config.ts` anpassen**, committen und pushen. Die Adresse steckt in Canonical-Links, Sitemap, `robots.txt` und Open-Graph-Bild.
 
-### Netlify (Alternative)
+## Offene Punkte
 
-1. app.netlify.com, Add new site, Import an existing project, Repository wählen.
-2. Build command `npm run build`, Publish directory `dist`, Umgebungsvariable `NODE_VERSION` = `22`.
+- `SITE_URL` ist noch der Platzhalter `https://jaimeimhof.pages.dev` (diese Domain existiert nicht). Echte Adresse eintragen.
+- Kontaktformular öffnet nur das Mailprogramm (`mailto:`). Ein echtes Formular oder dessen Entfernung ist offen.
+- Lebenslauf-PDF ohne Geburtsdatum und Strasse fehlt (`cvUrl`).
+- Werdegang, Tools und Verfügbarkeit stehen in `src/config.ts`, sind aber nicht auf der Seite.
+- Projekttexte sind kurz. Ausgangslage, Vorgehen und Ergebnis fehlen noch (Angaben von Jaime nötig).
+- Alte, ungenutzte Dateien in `material/` aufräumen.
 
-### Eigene Domain
-
-1. Domain kaufen (zum Beispiel bei Infomaniak oder Hostpoint).
-2. Cloudflare Pages: Custom domains, Domain eintragen, angezeigten CNAME beim Anbieter setzen. Netlify: Domain management, Add domain.
-3. HTTPS kommt automatisch (bis zu einer Stunde).
-4. `SITE_URL` in `src/config.ts` ändern, committen, pushen.
-
-## Prüfergebnisse
-
-Siehe `SPRINT_LOG.md` (Stand 16.10.2026): Build ohne Warnungen, `astro check` ohne Befund, axe 0 Verstösse, 21/21 Interaktionstests, Lighthouse Mobile 99–100 in allen Kategorien.
-
-## Annahmen
-
-- Porträt: `DSC01327.jpg` aus dem Bewerbungsordner (einziges gutes Porträt, nicht auf G:\).
-- Capoeira: Zuordnung über `G:\C0216.mp4` bestätigt (CAPU-Logo im Bild); Galerie aus Standbildern dieses Clips.
-- Tunis Streetlife: Ordner `G:\aktuell\tunesien`.
-- BlessThun: Einwilligung für die öffentliche Nutzung liegt laut Jaime vor.
-- Ausgeblendet (`draft: true`): Event Video (Zuordnung zu GPMC unbestätigt) und Tour de Suisse (Bilder fehlen).
-- Die Version mit scrollgesteuertem Sonnenuntergang ist im Git-Tag `sonnenuntergang-version` gesichert.
-- `SITE_URL` ist vorläufig `https://jaimeimhof.pages.dev`.
-
-## Offene TODOs
-
-1. **IPA-Titelbild:** Das aktuelle Bild ist das automatische YouTube-Vorschaubild. Ein gegradetes Standbild aus dem Film als `material/projects/ipa-derendinger/01.jpg` ersetzen. Es wird im Hero als Vorschau gezeigt und ist damit das wichtigste Bild der Seite.
-2. **Fallstudien ergänzen:** Für Capoeira, BlessThun und Tunis Ausgangslage, Setup, Workflow und Ergebnis nachtragen (Felder siehe oben).
-3. **Event Video:** bestätigen, dass „Eventvideo_Youth“ das GPMC-Projekt ist, dann `draft` entfernen und `kontext` ergänzen.
-4. **Tour de Suisse:** Fotos aus dem Google-Fotos-Album nach `material/projects/tour-de-suisse/` legen, `cover` und `gallery` setzen, `draft` entfernen.
-5. **CAPU:** im Feld `kontext` kurz erklären, was CAPU ist.
-6. **Lebenslauf:** Version ohne Geburtsdatum und Strasse nach `public/`, `cvUrl` setzen.
-7. **Domain:** `SITE_URL` nach dem Einrichten ändern.
-8. **Kurzvideos:** bis zu zwei weitere Reels; Einwilligung der Person im Gym-Video bestätigen.
-9. **Aletsch-Bild:** nur 1500 px breit, bei Gelegenheit höher aufgelöst ersetz
+Frühere Stände: `SPRINT_LOG.md` beschreibt einen älteren Relaunch (inzwischen ersetzt) und ist nur noch Archiv. Die Version mit scrollgesteuertem Sonnenuntergang liegt im Git-Tag `sonnenuntergang-version`, falls vorhanden.
