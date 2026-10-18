@@ -1,4 +1,4 @@
-// Quick interaction test for the Framer rebuild. Needs `npm run preview` running.
+// Quick interaction test. Needs a running dev or preview server.
 import { chromium } from 'playwright';
 
 const base = process.env.BASE_URL ?? 'http://localhost:4321';

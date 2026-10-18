@@ -79,7 +79,7 @@ Alles steht in `src/config.ts`: Name, E-Mail, Telefon, Ort, Instagram, LinkedIn,
 
 ### Ein Projekt ergänzen
 
-1. Bilder nach `material/framer/<projekt>/` oder `material/projects/<slug>/` kopieren (lange Kante höchstens 2400 px, EXIF und GPS entfernen).
+1. Bilder nach `material/site/<projekt>/` oder `material/projects/<slug>/` kopieren (lange Kante höchstens 2400 px, EXIF und GPS entfernen).
 2. In `src/data/projects.ts` die Bilder importieren und einen Eintrag in `projects` anlegen:
 
 ```ts

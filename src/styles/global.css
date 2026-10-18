@@ -1,11 +1,11 @@
-/* 1:1 rebuild of jaimeimhof.framer.website. Sizes measured at 1440 px (desktop) and 390 px (phone).
-   --u is one Framer pixel at 1440 px width, so desktop positions scale with the window. */
+/* Design tokens and base styles. Sizes measured at 1440 px (desktop) and 390 px (phone).
+   --u is one design pixel at 1440 px width, so desktop positions scale with the window. */
 :root {
   --bg: #000;
   --light: #e4e4e7;
   --text: #e4e4e7;
   --white: #fff;
-  /* Framer: #71717a. A touch lighter so small labels pass WCAG AA on black; visually the same. */
+  /* Base grey #71717a, a touch lighter so small labels pass WCAG AA on black; visually the same. */
   --muted: #76767f;
   --line: #27272a;
   --field: #18181b;
@@ -52,7 +52,7 @@ p { text-wrap: pretty; }
 :focus-visible { outline: 2px solid var(--white); outline-offset: 3px; }
 ::selection { background: var(--light); color: #000; }
 
-/* Framer text styles. Phone first, desktop from 810 px. */
+/* Text styles. Phone first, desktop from 810 px. */
 .t-h2 { font-size: 20px; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; }
 .t-h4 { font-size: 20px; font-weight: 500; line-height: 1.2; letter-spacing: -0.02em; }
 .t-h5, .t-h6 { font-family: var(--font-mono); text-transform: uppercase; }

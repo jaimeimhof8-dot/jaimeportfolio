@@ -1,7 +1,7 @@
 // Single source for names, contact data, links and shared texts.
 
-// TODO: replace with the real domain once it is set up (also used for sitemap, canonical and Open Graph URLs).
-export const SITE_URL = 'https://jaimeimhof.pages.dev';
+// Live domain. Used for sitemap, canonical, robots.txt and Open Graph URLs.
+export const SITE_URL = 'https://jaimeimhof.ch';
 
 export const person = {
   name: 'Jaime Imhof',

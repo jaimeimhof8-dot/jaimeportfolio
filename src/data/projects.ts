@@ -1,38 +1,38 @@
-// Projects in the order of jaimeimhof.framer.website. Roles come only from the project texts and the CV.
+// Projects in display order. Roles come only from the project texts and the CV.
 import type { ImageMetadata } from 'astro';
 
-import ipaCover from '../../material/framer/ipa/cover.jpg';
-import ipaLager from '../../material/framer/ipa/lager.jpg';
+import ipaCover from '../../material/site/ipa/cover.jpg';
+import ipaLager from '../../material/site/ipa/lager.jpg';
 import ipaAutostore from '../../material/projects/ipa-derendinger/frame-autostore.jpg';
-import gpmcCover from '../../material/framer/gpmc/cover.jpg';
-import gpmcPublikum from '../../material/framer/gpmc/publikum.jpg';
-import blessCover from '../../material/framer/blessthun/cover.jpg';
-import blessPublikum from '../../material/framer/blessthun/publikum.jpg';
-import blessSaengerin from '../../material/framer/blessthun/saengerin.jpg';
-import blessBuehne from '../../material/framer/blessthun/buehne.jpg';
-import blessGitarrist from '../../material/framer/who/gitarrist.jpg';
-import blessFreundinnen from '../../material/framer/blessthun/freundinnen.jpg';
-import capoCover from '../../material/framer/capoeira/cover.jpg';
-import capoZweites from '../../material/framer/capoeira/zweites.jpg';
-import tunisCover from '../../material/framer/tunis/cover.jpg';
-import tunis02 from '../../material/framer/tunis/02.jpg';
-import tunis03 from '../../material/framer/tunis/03.jpg';
-import tunis04 from '../../material/framer/tunis/04.jpg';
-import tunis05 from '../../material/framer/tunis/05.jpg';
-import tunis06 from '../../material/framer/tunis/06.jpg';
-import tourCover from '../../material/framer/hero/tour-de-suisse.jpg';
-import tour02 from '../../material/framer/tour/02.jpg';
-import tour03 from '../../material/framer/tour/03.jpg';
-import tour04 from '../../material/framer/tour/04.jpg';
-import tour05 from '../../material/framer/tour/05.jpg';
-import tour06 from '../../material/framer/tour/06.jpg';
-import ytGpmc from '../../material/framer/yt-F7yJFOHYH5o.jpg';
-import ytCapo from '../../material/framer/yt-n5dR3ikfgSo.jpg';
+import gpmcCover from '../../material/site/gpmc/cover.jpg';
+import gpmcPublikum from '../../material/site/gpmc/publikum.jpg';
+import blessCover from '../../material/site/blessthun/cover.jpg';
+import blessPublikum from '../../material/site/blessthun/publikum.jpg';
+import blessSaengerin from '../../material/site/blessthun/saengerin.jpg';
+import blessBuehne from '../../material/site/blessthun/buehne.jpg';
+import blessGitarrist from '../../material/site/who/gitarrist.jpg';
+import blessFreundinnen from '../../material/site/blessthun/freundinnen.jpg';
+import capoCover from '../../material/site/capoeira/cover.jpg';
+import capoZweites from '../../material/site/capoeira/zweites.jpg';
+import tunisCover from '../../material/site/tunis/cover.jpg';
+import tunis02 from '../../material/site/tunis/02.jpg';
+import tunis03 from '../../material/site/tunis/03.jpg';
+import tunis04 from '../../material/site/tunis/04.jpg';
+import tunis05 from '../../material/site/tunis/05.jpg';
+import tunis06 from '../../material/site/tunis/06.jpg';
+import tourCover from '../../material/site/hero/tour-de-suisse.jpg';
+import tour02 from '../../material/site/tour/02.jpg';
+import tour03 from '../../material/site/tour/03.jpg';
+import tour04 from '../../material/site/tour/04.jpg';
+import tour05 from '../../material/site/tour/05.jpg';
+import tour06 from '../../material/site/tour/06.jpg';
+import ytGpmc from '../../material/site/yt-F7yJFOHYH5o.jpg';
+import ytCapo from '../../material/site/yt-n5dR3ikfgSo.jpg';
 
 export interface Img {
   src: ImageMetadata;
   alt: string;
-  // CSS object-position, as set in Framer.
+  // CSS object-position.
   pos?: string;
 }
 
@@ -154,7 +154,7 @@ export const projects: Project[] = [
   },
 ];
 
-// Home shows the first four, as on the Framer site.
+// Home shows the first four.
 export const featured = projects.slice(0, 4);
 
 // "Weitere Projekte": the next two in the list, never the project itself.

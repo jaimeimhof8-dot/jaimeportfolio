@@ -11,7 +11,7 @@ interface Props {
 const { id, title, poster } = Astro.props;
 ---
 
-<!-- Looks like the Framer YouTube embed (thumbnail + play button, red on hover); the player only loads after a click. -->
+<!-- YouTube embed (thumbnail + play button, red on hover); the player only loads after a click. -->
 <div class="yt" data-id={id} data-title={title}>
   <Picture formats={['avif', 'webp']} src={poster} alt="" widths={[640, 1280]} sizes="(min-width: 810px) 86vw, 90vw" loading="lazy" class="yt-poster" />
   <button class="yt-play" type="button">

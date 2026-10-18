@@ -25,7 +25,7 @@ for (const file of files) {
     for (const url of urls) {
       if (url.startsWith('mailto:') || url.startsWith('tel:')) special.add(url);
       else if (/^https?:\/\//.test(url)) {
-        if (!url.startsWith('https://jaimeimhof.pages.dev')) external.set(url, true);
+        if (!url.startsWith('https://jaimeimhof.ch')) external.set(url, true);
       } else if (url.startsWith('/')) internal.set(url.split(/[?#]/)[0], file);
     }
   }

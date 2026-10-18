@@ -91,5 +91,5 @@ Kein Material auf G:\ gefunden (Namenssuche und Datum Juni 2026). Platzhalter. T
 - Weitere Outdoor-Ordner (dreispitz, gastlose, grimsel, köln …): nur gesichtet, Auswahl aus „Fotografie-bewerbungswebseite“ reichte.
 - RAW-Dateien (.ARW, .DNG) wurden nie geöffnet oder entwickelt.
 
-## material/framer/ (17.10.2026)
+## material/site/ (17.10.2026)
 Alle Bilder der Framer-Seite jaimeimhof.framer.website (eigene Fotos), in Originalgrösse heruntergeladen, auf max. 2400 px verkleinert, Metadaten entfernt. yt-*.jpg = YouTube-Vorschaubilder der eigenen Videos.

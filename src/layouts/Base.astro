@@ -32,7 +32,7 @@ const jsonLd = {
   name: person.name,
   jobTitle: person.jobTitle,
   url: SITE_URL,
-  email: `mailto:${contact.email}`,
+  email: contact.email,
   address: {
     '@type': 'PostalAddress',
     addressLocality: person.city,
