@@ -13,6 +13,11 @@ const { project: p } = Astro.props;
 const more = nextProjects(p.slug);
 // Own Open Graph image (1200 × 630) from the cover.
 const og = await getImage({ src: p.cover.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const story = [
+  { label: 'Ausgangslage', text: p.ausgangslage },
+  { label: 'Vorgehen', text: p.vorgehen },
+  { label: 'Ergebnis', text: p.ergebnis },
+].filter((x) => x.text);
 const pic = (img: Img, wide = false) => ({
   src: img.src,
   alt: img.alt,
@@ -42,6 +47,12 @@ const pic = (img: Img, wide = false) => ({
     </dl>
 
     <p class="text">{p.text}</p>
+
+    {story.length > 0 && (
+      <dl class="story">
+        {story.map((x) => <div><dt class="t-h6">{x.label}</dt><dd>{x.text}</dd></div>)}
+      </dl>
+    )}
 
     {p.youtube && (
       <div class="video"><YouTube id={p.youtube.id} title={p.title} poster={p.youtube.poster} /></div>
@@ -89,6 +100,8 @@ const pic = (img: Img, wide = false) => ({
   dd { margin: 6px 0 0; text-wrap: balance; }
 
   .text { max-width: 58ch; margin: 48px auto 0; text-align: center; }
+  .story { display: grid; gap: 28px; max-width: 58ch; margin: 48px auto 0; text-align: left; }
+  .story dd { margin: 6px 0 0; }
   .video, .gallery { margin-top: 56px; }
 
   .more { padding: 40px 25px 60px; text-align: center; }
@@ -111,6 +124,7 @@ const pic = (img: Img, wide = false) => ({
     .meta { grid-template-columns: repeat(4, auto); justify-content: center; gap: 0 calc(72 * var(--u)); max-width: 1000px; margin: 100px auto 0; padding-block: 32px; }
     .more .t-h6 { font-size: 14px; }
     .text { margin-top: 60px; }
+    .story { grid-template-columns: repeat(3, 1fr); gap: 40px; max-width: 1000px; margin-top: 80px; }
     .video, .gallery { margin-top: 100px; }
     .gallery { grid-template-columns: 1fr 1fr; }
     .gallery .full { grid-column: 1 / -1; aspect-ratio: 1240 / 827; }

@@ -50,6 +50,10 @@ export interface Project {
   // What Jaime did himself.
   role: string;
   text: string;
+  // Optional case-study fields, shown on the project page only when filled in.
+  ausgangslage?: string;
+  vorgehen?: string;
+  ergebnis?: string;
   // Card image on the overview pages.
   cover: Img;
   // First image of the pair on the project page; defaults to the cover.
