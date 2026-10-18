@@ -1,37 +1,28 @@
-# Sprint-Log: Relaunch Schweizer Editorial-Minimalismus
+# Änderungsprotokoll
 
-> **Archiv.** Beschreibt einen älteren Stand (Inter, Content-Collections, Hover-Vorschau, Reels), der inzwischen durch den Framer-Nachbau ersetzt wurde. Der aktuelle Aufbau steht in `README.md`, der letzte Design-Audit in `UI_UX_AUDIT.md`.
+Aktueller Stand: 18.10.2026. Aufbau und Befehle stehen in `README.md`, der Design-Audit vom 17.10.2026 in `UI_UX_AUDIT.md`. Ältere Stände sind über die Git-Tags `sonnenuntergang-version` und `cinema-dark-version` erreichbar.
 
-Datum: 16.10.2026 · Ausgangspunkt: Tag `sonnenuntergang-version` (0c8cc28)
+## 18.10.2026: Audit und Umsetzung
 
-## Epics
+Grundlage: Code-Audit (Build, Barrierefreiheit, Layout) und Live-Prüfung von https://jaimeimhof.ch.
 
-| Epic | Commit | Ergebnis |
-|---|---|---|
-| 1 · Relaunch Design & Hero | 8c2b916 | Fläche `#111`, Haarlinien, 12er-Raster, Inter 700 (−0.03em / 0.95), Mono-Labels 11–13 px (+0.08em, tabular-nums). Zweizeilige Headline, drei Projektlinks mit Hover-Vorschau, Metadaten. Above the fold auf 1440×900, 1280×720, 390×844. |
-| 2 · Bereinigung & Platzhalter | 49f8856 | Event Video (GPMC unbestätigt) und Tour de Suisse auf `draft`. Kapitelkarten entfernt. Magnetischer „Schreib mir ↗“-Knopf unten rechts. |
-| 3 · Hover-Vorschau & Performance | fce37b9 | Vorschaubilder lazy mit niedriger Priorität; Listenvorschau entsteht erst beim Annähern an die Liste; auf Touch-Geräten weder Vorschau-Ebene noch Listener. Mobile-Startseite: 5 Bilder, 199 KB. |
-| 4 · Fallstudien | 965e2df | Neue Felder `ausgangslage`, `workflow`, `ergebnis`. Raster mit fünf Blöcken und Mono-Spec-Kasten. IPA mit allen gelieferten Fakten. |
-| 5 · Cleanup | e6cd13b | Timelapse-Bildfolge, Schlüsselbilder, Sternenbild, Hero-Video, Sequenz-Skript und ungenutzte Bilder gelöscht (9.8 MB). GSAP und Lenis deinstalliert. Abhängigkeiten nur noch Astro, Sitemap, zwei Schriften. Kein separates JS-Bundle. Neues OG-Bild und Favicon. |
-| 6 · QA & Build | dieser Commit | siehe unten |
-
-## QA
-
-| Prüfung | Ergebnis |
+| Bereich | Änderung |
 |---|---|
-| `npm run build` | 9 Seiten, 0 Fehler, 0 Warnungen |
-| `astro check` | 0 Fehler, 0 Warnungen, 0 Hinweise |
-| axe (WCAG 2.1 AA + Best Practices), 7 Seiten × 390/1440 px | 0 Verstösse (ein Befund behoben: Brotkrumen-Link nur farblich unterscheidbar → unterstrichen) |
-| Interaktionstest `check:smoke` | 21/21 bestanden: Hero above the fold, Hover-Vorschau, Ortszeit, Schreib-mir-Knopf (verborgen im Hero, sichtbar danach), Fallstudie 5 Blöcke, Spec-Kasten, YouTube erst nach Klick, Mobile ohne Vorschau-Ebene mit Thumbnails, Menü, Filter, Lightbox, Reel-Pause, 404, robots.txt |
-| Links | 347 interne Ziele vorhanden; mailto/tel nur `jaimeimhof8@gmail.com` und `+41775256727`; LinkedIn blockt automatische Abfragen (999), im Browser geprüft |
-| Suche nach Vorlagenresten und Tippfehler-Adresse | keine Treffer im Projekt (ohne node_modules) |
-| Lighthouse Mobile (Median aus 3 Läufen, Rechner unbelastet, benchmarkIndex 2065–2833) | Start 99 · Works 100 · IPA 100 · About 100 · Contact 100; Barrierefreiheit, Best Practices, SEO überall 100; CLS 0; TBT 0 ms; LCP 1.4–1.8 s |
-| Seitengewicht (Lighthouse) | Start 159 KB · Works 99 KB · IPA 106 KB · About 141 KB · Contact 84 KB |
-| Screenshots 390 / 768 / 1440 px | selbst gesichtet: kein abgeschnittener Text, kein Text über Bildern, Raster konsistent |
+| Domain | `SITE_URL` auf `https://jaimeimhof.ch` (vorher eine nicht existierende `pages.dev`-Adresse in Canonical, Sitemap, `robots.txt`, Open Graph). Framer-Reste im Code entfernt, Bildordner `material/site`. |
+| Layout | Auf Windows-Desktops scrollten Start und About 15 px seitlich (`100vw` zählt die Scrollleiste mit). `--u` folgt jetzt der Breite ohne Scrollleiste. Neuer Smoke-Test mit sichtbarer Scrollleiste. |
+| Hero Handy | Haltephase des Namens von 0,5 auf 1,6 Bildschirme verlängert (360svh). Scroll-Hinweis statt Maus-Symbol auf Touch. Fotoschau und Fotostreifen pausieren ausser Sicht. |
+| Menü Handy | Escape und Klick daneben schliessen, Fokus kehrt zum Knopf zurück. |
+| Kontakt | Mailto-Formular entfernt. E-Mail mit Kopieren-Knopf, Telefon, Ort, Social-Links. |
+| Texte | Alter aus dem About-Text entfernt. IPA und BlessThun mit abgestimmten Texten, BlessThun «2024 – heute». |
+| SEO | Pro Projekt `seoTitle` und `beschreibung` (höchstens 155 Zeichen), eigene Beschreibung für «Über mich», eigenes Open-Graph-Bild pro Projekt. Prüfung mit `npm run check:meta`. |
+| Inhalt | Startseite: Arbeiten vor «Wer bin ich». «Über mich»: Block «Werdegang und Tools» mit Lebenslauf-Download. Projektseiten: optionale Felder Ausgangslage, Vorgehen, Ergebnis. |
+| Datenschutz | Neue Seite `/datenschutz/`, Link im Footer. Kein Rechtstext einer Anwältin. |
+| Aufräumen | README neu, Inter-Schrift deinstalliert, ungenutzte `config.ts`-Einträge entfernt. |
 
-## Offen (braucht Material oder Bestätigung von Jaime)
+## Prüfungen
 
-1. Gegradetes IPA-Standbild statt YouTube-Vorschaubild (wichtigstes Bild der Seite, erscheint im Hero).
-2. Fallstudien-Fakten für Capoeira, BlessThun, Tunis.
-3. Bestätigung Event Video = GPMC; Tour-de-Suisse-Fotos.
-4. Lebenslauf ohne Geburtsdatum/Strasse, Domain.
+`npm run build`, `npm run check`, `npm run check:meta`, `npm run check:links`, `npm run check:a11y`, `npm run check:smoke`. Details und Ergebnisse stehen im jeweiligen Commit-Verlauf und im Abschlussbericht.
+
+## Archiv: Relaunch vom 16.10.2026
+
+Ein früherer Relaunch («Schweizer Editorial-Minimalismus» mit Inter, Content-Collections, Hover-Vorschau und Reels) wurde durch den heutigen Aufbau ersetzt. Seine Beschreibung ist nicht mehr gültig.

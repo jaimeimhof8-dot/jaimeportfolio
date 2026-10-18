@@ -8,11 +8,12 @@ Kein Tracking, keine Cookies, keine externen Schriften (alle über `@fontsource`
 
 | Pfad | Datei | Inhalt |
 |---|---|---|
-| `/` | `src/pages/index.astro` | Hero (zwei wechselnde Fotos, Scrollen öffnet den grauen Namensblock), «Wer bin ich», vier Arbeiten, Kontakt-Abschluss |
+| `/` | `src/pages/index.astro` | Hero (zwei wechselnde Fotos, Scrollen öffnet den grauen Namensblock), vier Arbeiten, «Wer bin ich», Kontakt-Abschluss |
 | `/projects/` | `src/pages/projects/index.astro` | alle sechs Arbeiten, eine Karte pro Zeile |
 | `/projects/<slug>/` | `src/pages/projects/[slug].astro` | Projektseite: Bildpaar, Meta (Branche, Jahr, Kunde, Rolle), Text, Video oder Galerie, «Weitere Projekte» |
-| `/about/` | `src/pages/about.astro` | Über mich mit Bildkomposition |
+| `/about/` | `src/pages/about.astro` | Über mich mit Bildkomposition, «Werdegang und Tools», Lebenslauf-Download |
 | `/contact/` | `src/pages/contact.astro` | E-Mail (mit Kopieren-Knopf), Telefon, Ort, Social-Links |
+| `/datenschutz/` | `src/pages/datenschutz.astro` | kurze Datenschutzerklärung (keine Cookies, kein Tracking, YouTube erst nach Klick) |
 | `/404` | `src/pages/404.astro` | Fehlerseite (noindex) |
 | `/robots.txt`, `/sitemap-index.xml` | `src/pages/robots.txt.ts`, `@astrojs/sitemap` | werden beim Build erzeugt |
 
@@ -131,16 +132,32 @@ Diese Details stehen in den Projekttexten, ohne dass sie in Jaimes Unterlagen be
 - **Capoeira (CAPU):** «Bewegung stand im Fokus, schnelle Schnitte, viel Nahaufnahme», «Video- und Fotoproduktion». Was CAPU ist, steht nirgends.
 - **Tunis Streetlife:** «Street-Fotografie zwischen Alltag und Architektur», «entstanden auf einer Reise».
 - **Tour de Suisse:** «als Zuschauer dabei», Jahr 2026.
-- **BlessThun:** «meist abends oder am Wochenende» (nur im vorgegebenen Text, nicht im Lebenslauf).
 - **Rolle** pro Projekt (Feld `role`): nur aus den Projekttexten abgeleitet.
+- **Kamera:** Der Lebenslauf nennt «Sony Alpha 7». Frühere Texte sagten «Sony a7 III». Welches Modell stimmt?
+
+Aus dem Lebenslauf belegt: IPA (Idee bis Schnitt allein, Motion Design in After Effects, Farbkorrektur in DaVinci Resolve), BlessThun («jeden Monat ein Anlass, rund 24 bisher, meist abends und am Wochenende», Instagram-Content).
+
+## Fragen für die Projektseiten
+
+Die Felder `ausgangslage`, `vorgehen` und `ergebnis` in `src/data/projects.ts` sind angelegt und leer. Sie erscheinen erst, wenn sie ausgefüllt sind. Folgendes muss Jaime pro Projekt beantworten (kurz, 1–2 Sätze):
+
+- **Ausgangslage:** Was war die Aufgabe? Wer hat sie gestellt, und was sollte erreicht werden?
+- **Vorgehen:** Was hast du genau gemacht (Planung, Dreh, Schnitt, Licht, Ton)? Womit?
+- **Ergebnis:** Wie ging es aus? Wo lief das Video oder Bild, wie wurde es aufgenommen, gibt es Zahlen oder ein Feedback?
+
+Gilt für: IPA, Event Video (GPMC), Event Fotografie (BlessThun), Capoeira (CAPU), Tunis Streetlife, Tour de Suisse.
+
+## Datenschutz
+
+`/datenschutz/` ist eine kurze, sachliche Erklärung und **kein Rechtstext einer Anwältin**. Sie nennt Cloudflare als Hosting (aus den Antwort-Headern der Live-Seite abgelesen), den YouTube-Einbettungs-Klick und den Kontakt per E-Mail. «Stand» steht im Kopf der Datei (`src/pages/datenschutz.astro`) und wird bei Änderungen angepasst.
 
 ## Offene Punkte
 
-- Weiterleitung `www` → Hauptdomain im Hosting einstellen (siehe oben).
-- Datenschutzseite, «Werdegang und Tools», Lebenslauf-Download und weitere Punkte folgen in Stufe 2 des Auftrags (`Claude_Code_Prompt_Gesamt.md`).
-- Lebenslauf-PDF ohne Geburtsdatum und Strasse fehlt noch in `public/` (`cvUrl` in `src/config.ts`).
-- Projekttexte sind kurz. Ausgangslage, Vorgehen und Ergebnis fehlen (Angaben von Jaime nötig).
-- Hero auf dem Handy: Haltephase des Namens (360svh) auf einem echten Handy mit kräftigem Wisch prüfen und die Höhe in `src/pages/index.astro` anpassen.
-- Alte, ungenutzte Dateien in `material/` aufräumen.
+- **Weiterleitung `www` → Hauptdomain** im Hosting einstellen (siehe oben).
+- **Hero auf dem Handy:** Haltephase des Namens (360svh) auf einem echten Handy mit kräftigem Wisch prüfen und die Höhe in `src/pages/index.astro` anpassen. Ob sie leer wirkt, lässt sich nur am Gerät beurteilen.
+- **Pause-Taste** für Fotoschau und Fotostreifen gibt es nicht. Beide pausieren ausser Sicht und bei `prefers-reduced-motion`, aber nicht auf Wunsch.
+- **Projekttexte** ausfüllen (siehe «Fragen für die Projektseiten»).
+- **Ungenutzte Dateien in `material/`** (20 Dateien, rund 12 MB) sind noch nicht gelöscht, sie warten auf Jaimes Ok: `about/aletsch.jpg`, `about/portrait-bw.jpg`, `home/luftbild-strasse.jpg`, `projects/capoeira-capu/{01.jpg, preview.mp4}`, `projects/event-foto-blessthun/{01,07,08,09}.jpg`, `projects/event-video-gpmc/preview.mp4`, `projects/tunis-streetlife/{01,07,08,09}.jpg`, `reels/01-gym.{jpg,mp4}`, `showreel/{poster.jpg, showreel-960.mp4, showreel-1600.mp4}`, `site/yt-SxO9FMYEWg8.jpg`. Das Reel «01-gym» zeigt eine Person, deren Einwilligung unbestätigt ist.
+- **Lokaler Branch `master`** enthält drei Commits, die nicht in `main` sind (alter Framer-Nachbau). Er wurde deshalb nicht gelöscht.
 
-Frühere Stände: `SPRINT_LOG.md` beschreibt einen älteren Relaunch (inzwischen ersetzt) und ist nur noch Archiv. Die Version mit scrollgesteuertem Sonnenuntergang liegt im Git-Tag `sonnenuntergang-version`.
+Frühere Stände: `SPRINT_LOG.md` ist das aktuelle Änderungsprotokoll. Die Version mit scrollgesteuertem Sonnenuntergang liegt im Git-Tag `sonnenuntergang-version`.

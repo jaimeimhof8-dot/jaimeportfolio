@@ -54,6 +54,33 @@ check('404-Seite', ((await phone.textContent('h1')) ?? '').includes('gibt es nic
 await phone.goto(base + '/robots.txt');
 check('robots.txt mit Sitemap', ((await phone.textContent('body')) ?? '').includes('sitemap-index.xml'));
 
+// Stage 2 features.
+{
+  const touch = await (await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true, isMobile: true })).newPage();
+  await touch.goto(base + '/', { waitUntil: 'networkidle' });
+  check('Touch: Scroll-Hinweis sichtbar, Maus-Symbol nicht', (await touch.locator('.scroll-hint').isVisible()) && !(await touch.locator('.mouse').isVisible()));
+  check('Startseite: Arbeiten vor Wer bin ich', await touch.evaluate(() => !!(document.querySelector('#arbeiten').compareDocumentPosition(document.querySelector('.who')) & Node.DOCUMENT_POSITION_FOLLOWING)));
+  await touch.goto(base + '/about/', { waitUntil: 'networkidle' });
+  await touch.click('.menu-btn');
+  await touch.keyboard.press('Escape');
+  check('Menü: Escape schliesst und Fokus kehrt zurück', !(await touch.isVisible('#hauptmenue a[href="/projects/"]')) && (await touch.evaluate(() => document.activeElement?.classList.contains('menu-btn'))));
+  await touch.click('.menu-btn');
+  await touch.mouse.click(200, 600);
+  check('Menü: Klick daneben schliesst', !(await touch.isVisible('#hauptmenue a[href="/projects/"]')));
+  await touch.close();
+
+  const d = await (await browser.newContext({ viewport: { width: 1440, height: 900 } })).newPage();
+  await d.goto(base + '/', { waitUntil: 'networkidle' });
+  check('Maus: Maus-Symbol sichtbar, Scroll-Hinweis nicht', (await d.locator('.mouse').isVisible()) && !(await d.locator('.scroll-hint').isVisible()));
+  await d.goto(base + '/about/', { waitUntil: 'networkidle' });
+  const cv = await d.getAttribute('a[download]', 'href');
+  const res = cv ? await d.request.get(base + cv) : null;
+  check('Über mich: Lebenslauf-Download erreichbar (PDF)', !!res && res.ok() && (res.headers()['content-type'] ?? '').includes('pdf'));
+  await d.goto(base + '/datenschutz/', { waitUntil: 'networkidle' });
+  check('Datenschutz: Seite und Footer-Link', ((await d.textContent('h1')) ?? '').includes('Datenschutz') && (await d.locator('footer a[href="/datenschutz/"]').count()) === 1);
+  await d.close();
+}
+
 // Classic, visible scrollbar (Windows/Linux desktop): headless Chrome hides it by default, so the check above never saw
 // the 15 px overflow caused by 100vw. scrollWidth must not exceed clientWidth (the width without the scrollbar).
 const classic = await chromium.launch({ channel: 'chrome', ignoreDefaultArgs: ['--hide-scrollbars'] });

@@ -3,7 +3,7 @@ import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
 
 const base = process.env.BASE_URL ?? 'http://localhost:4321';
-const pages = ['/', '/projects/', '/projects/ipa-derendinger/', '/projects/event-foto-blessthun/', '/about/', '/contact/', '/404/'];
+const pages = ['/', '/projects/', '/projects/ipa-derendinger/', '/projects/event-foto-blessthun/', '/about/', '/contact/', '/datenschutz/', '/404/'];
 const browser = await chromium.launch({ channel: 'chrome' });
 let total = 0;
 
