@@ -92,4 +92,4 @@ Kein Material auf G:\ gefunden (Namenssuche und Datum Juni 2026). Platzhalter. T
 - RAW-Dateien (.ARW, .DNG) wurden nie geöffnet oder entwickelt.
 
 ## material/site/ (17.10.2026)
-Alle Bilder der Framer-Seite jaimeimhof.framer.website (eigene Fotos), in Originalgrösse heruntergeladen, auf max. 2400 px verkleinert, Metadaten entfernt. yt-*.jpg = YouTube-Vorschaubilder der eigenen Videos.
+Alle Bilder der Seite (eigene Fotos), in Originalgrösse heruntergeladen, auf max. 2400 px verkleinert, Metadaten entfernt. yt-*.jpg = YouTube-Vorschaubilder der eigenen Videos.

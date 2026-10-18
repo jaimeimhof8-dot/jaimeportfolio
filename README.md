@@ -1,6 +1,6 @@
 # Portfolio Jaime Imhof
 
-Statische Portfolio-Website von Jaime Imhof (Mediamatiker EFZ, Thun), gebaut mit Astro 7. Nachbau der Framer-Seite `jaimeimhof.framer.website`.
+Statische Portfolio-Website von Jaime Imhof (Mediamatiker EFZ, Thun), gebaut mit Astro 7. Live unter https://jaimeimhof.ch.
 
 Kein Tracking, keine Cookies, keine externen Schriften (alle über `@fontsource` selbst gehostet). YouTube-Videos laden erst nach einem Klick (`youtube-nocookie.com`). Die Seite braucht ausser kleinen Inline-Skripten kein JavaScript-Framework.
 
@@ -12,7 +12,7 @@ Kein Tracking, keine Cookies, keine externen Schriften (alle über `@fontsource`
 | `/projects/` | `src/pages/projects/index.astro` | alle sechs Arbeiten, eine Karte pro Zeile |
 | `/projects/<slug>/` | `src/pages/projects/[slug].astro` | Projektseite: Bildpaar, Meta (Branche, Jahr, Kunde, Rolle), Text, Video oder Galerie, «Weitere Projekte» |
 | `/about/` | `src/pages/about.astro` | Über mich mit Bildkomposition |
-| `/contact/` | `src/pages/contact.astro` | E-Mail (mit Kopieren-Knopf), Telefon, Ort, Formular |
+| `/contact/` | `src/pages/contact.astro` | E-Mail (mit Kopieren-Knopf), Telefon, Ort, Social-Links |
 | `/404` | `src/pages/404.astro` | Fehlerseite (noindex) |
 | `/robots.txt`, `/sitemap-index.xml` | `src/pages/robots.txt.ts`, `@astrojs/sitemap` | werden beim Build erzeugt |
 
@@ -34,18 +34,19 @@ Die Skripte laufen gegen `http://localhost:4321` (anderer Port: Umgebungsvariabl
 ```bash
 npm run check          # Typen und Astro-Dateien (astro check)
 npm run check:links    # alle Links und Bilder in dist/ (vorher npm run build)
+npm run check:meta     # dist/: Descriptions höchstens 155 Zeichen, canonical/og-URLs auf jaimeimhof.ch, keine Reste (vorher npm run build)
 npm run check:a11y     # axe-core, 7 Seiten, 390 und 1440 px
 npm run check:smoke    # Interaktionstests (Hero, Menü, YouTube, Kontaktdaten, 404, robots.txt)
 npm run screenshots    # Vollseiten-Screenshots (390, 768, 1440 px) nach screenshots/
 ```
 
-Grenzen: Die Tests laufen in Playwright mit unsichtbarer Scrollleiste und `reducedMotion` bei axe. Probleme, die nur mit klassischer Windows-Scrollleiste oder mit der Hero-Animation auftreten, fangen sie nicht ab. Das bitte von Hand in Chrome prüfen.
+Der Smoke-Test läuft zusätzlich mit sichtbarer, klassischer Scrollleiste (Windows/Linux) und schlägt bei seitlichem Überlauf fehl. axe läuft mit `reducedMotion`, die Hero-Animation prüft keiner der Tests. Die bitte von Hand in Chrome ansehen.
 
 ## Aufbau
 
 ```
 material/                 Bildquellen (Kopien, ohne EXIF/GPS), siehe material/INVENTAR.md
-  framer/                 Bilder der Seite, nach Bereich sortiert (hero, who, about, strip, ipa, ...)
+  site/                   Bilder der Seite, nach Bereich sortiert (hero, who, about, strip, ipa, ...)
   projects/               zusätzliche Projektbilder
 public/                   favicon.svg, apple-touch-icon.png, og.jpg (1200 × 630)
 scripts/                  Prüfskripte (Links, axe, Smoke-Test, Screenshots)
@@ -64,7 +65,7 @@ Bilder werden beim Build automatisch als AVIF und WebP in passenden Grössen erz
 
 - **Farben:** schwarzer Grund `#000`, helles Zinkgrau `#e4e4e7` für Text und den Hero-Block, gedämpftes Grau `#76767f` für Labels, Linien `#27272a`.
 - **Schrift:** JetBrains Mono in Versalien für Titel und Labels, Poppins Light für Fliesstext.
-- **Raster:** `--u` ist ein Framer-Pixel bei 1440 px Breite. Desktop-Positionen skalieren damit mit dem Fenster, ab 810 px Breite gilt das Desktop-Layout.
+- **Raster:** `--u` ist ein Design-Pixel bei 1440 px Breite. Desktop-Positionen skalieren damit mit dem Fenster, ab 810 px Breite gilt das Desktop-Layout. Der Wert wird in `Base.astro` aus der Breite ohne Scrollleiste gesetzt (`100vw` würde auf Windows 15 px Überlauf erzeugen).
 - **Hero:** `src/pages/index.astro`. Die Sektion ist hoch, die Bühne klebt (`position: sticky`). Ein kleines Skript setzt beim Scrollen `--p` (Öffnung des grauen Blocks) und `--q` (Name erscheint). Auf dem Handy ist die Sektion 360svh hoch, damit der Name nach dem Öffnen länger stehen bleibt. Bei `prefers-reduced-motion` gibt es keine Animation.
 - **Navigation:** Über dem Hero hat die Leiste keinen Hintergrund. Jedes Element prüft, ob ein Foto oder der graue Block dahinter liegt, und wird weiss oder schwarz.
 
@@ -86,9 +87,11 @@ Alles steht in `src/config.ts`: Name, E-Mail, Telefon, Ort, Instagram, LinkedIn,
 {
   slug: 'beispiel',
   title: 'Beispiel',
+  seoTitle: 'Beispiel, Kurzbeschreibung',   // Seitentitel vor « | Jaime Imhof»
+  beschreibung: 'Meta-Description, höchstens 155 Zeichen.',
   category: 'Video',            // 'Video' oder 'Fotografie'
   industry: 'Sport',
-  year: '2026',
+  year: '2026',                 // oder ein Zeitraum wie '2024 – heute'
   client: 'Kundenname',
   role: 'Kamera, Schnitt',      // nur, was wirklich stimmt
   text: 'Kurzer Projekttext.',
@@ -101,24 +104,43 @@ Alles steht in `src/config.ts`: Name, E-Mail, Telefon, Ort, Instagram, LinkedIn,
 
 Die Reihenfolge im Array bestimmt die Reihenfolge auf der Arbeiten-Seite. Die Startseite zeigt die ersten vier (`featured`), «Weitere Projekte» die zwei nächsten.
 
-Bilder immer mit Alt-Text beschreiben, ohne Namen von Personen.
+Bilder immer mit Alt-Text beschreiben, ohne Namen von Personen. Das Titelbild des Projekts wird beim Build automatisch als Open-Graph-Bild (1200 × 630) erzeugt. `npm run check:meta` prüft die Länge der Beschreibung.
 
-## Deployment
+## Deployment und Hosting
 
-Die Seite ist statisch (`dist/`) und läuft auf jedem Static Hosting, z.B. Cloudflare Pages oder Netlify.
+Die Seite ist statisch (`dist/`). Sie läuft hinter Cloudflare (Antwort-Header `Server: cloudflare`). Ob es Cloudflare Pages oder Workers ist, lässt sich von aussen nicht sagen, und im Projekt liegt keine Hosting-Konfiguration. Darum ist hier nichts eingerichtet, was nur geraten wäre.
 
-1. Repository mit dem Hoster verbinden.
-2. Build command: `npm run build`, Output directory: `dist`.
-3. Umgebungsvariable `NODE_VERSION` = `22`.
-4. Eigene Domain im Hoster eintragen, danach **`SITE_URL` in `src/config.ts` anpassen**, committen und pushen. Die Adresse steckt in Canonical-Links, Sitemap, `robots.txt` und Open-Graph-Bild.
+Build-Einstellungen: Build command `npm run build`, Output directory `dist`, Umgebungsvariable `NODE_VERSION` = `22`.
+
+**Von Jaime im Hosting-Dashboard einzustellen: `www` auf die Hauptdomain weiterleiten.** Stand 18.10.2026 antwortet `https://www.jaimeimhof.ch/` mit 200 und zeigt dieselbe Seite wie `https://jaimeimhof.ch/`. Doppelte Adressen verwässern die Suche. In Cloudflare: Domain → Rules → Redirect Rules → Eintrag anlegen:
+
+- Wenn: Hostname ist gleich `www.jaimeimhof.ch`
+- Dann: dynamische Weiterleitung auf `concat("https://jaimeimhof.ch", http.request.uri.path)`, Statuscode 301, Query-String erhalten.
+
+Danach `curl -sI https://www.jaimeimhof.ch/about/` prüfen: Erwartet `301` mit `location: https://jaimeimhof.ch/about/`.
+
+Die Domain steht in `SITE_URL` (`src/config.ts`). Daraus entstehen Canonical-Links, Sitemap, `robots.txt` und Open-Graph-URLs. Bei einem Domainwechsel dort ändern und neu bauen.
+
+Das Jahr im Footer wird beim Build festgelegt: zum Jahreswechsel neu bauen.
+
+## Von Jaime zu bestätigen
+
+Diese Details stehen in den Projekttexten, ohne dass sie in Jaimes Unterlagen belegt sind. Sie bleiben stehen, bis sie bestätigt oder korrigiert sind:
+
+- **GPMC:** «Open-Air-Anlass», «Ruhige Kameraführung statt schneller Schnitte», «Abendstimmung», «Video- und Fotoproduktion». Ausserdem die Zuordnung von «Eventvideo_Youth» zum Kunden GPMC.
+- **Capoeira (CAPU):** «Bewegung stand im Fokus, schnelle Schnitte, viel Nahaufnahme», «Video- und Fotoproduktion». Was CAPU ist, steht nirgends.
+- **Tunis Streetlife:** «Street-Fotografie zwischen Alltag und Architektur», «entstanden auf einer Reise».
+- **Tour de Suisse:** «als Zuschauer dabei», Jahr 2026.
+- **BlessThun:** «meist abends oder am Wochenende» (nur im vorgegebenen Text, nicht im Lebenslauf).
+- **Rolle** pro Projekt (Feld `role`): nur aus den Projekttexten abgeleitet.
 
 ## Offene Punkte
 
-- `SITE_URL` ist noch der Platzhalter `https://jaimeimhof.pages.dev` (diese Domain existiert nicht). Echte Adresse eintragen.
-- Kontaktformular öffnet nur das Mailprogramm (`mailto:`). Ein echtes Formular oder dessen Entfernung ist offen.
-- Lebenslauf-PDF ohne Geburtsdatum und Strasse fehlt (`cvUrl`).
-- Werdegang, Tools und Verfügbarkeit stehen in `src/config.ts`, sind aber nicht auf der Seite.
-- Projekttexte sind kurz. Ausgangslage, Vorgehen und Ergebnis fehlen noch (Angaben von Jaime nötig).
+- Weiterleitung `www` → Hauptdomain im Hosting einstellen (siehe oben).
+- Datenschutzseite, «Werdegang und Tools», Lebenslauf-Download und weitere Punkte folgen in Stufe 2 des Auftrags (`Claude_Code_Prompt_Gesamt.md`).
+- Lebenslauf-PDF ohne Geburtsdatum und Strasse fehlt noch in `public/` (`cvUrl` in `src/config.ts`).
+- Projekttexte sind kurz. Ausgangslage, Vorgehen und Ergebnis fehlen (Angaben von Jaime nötig).
+- Hero auf dem Handy: Haltephase des Namens (360svh) auf einem echten Handy mit kräftigem Wisch prüfen und die Höhe in `src/pages/index.astro` anpassen.
 - Alte, ungenutzte Dateien in `material/` aufräumen.
 
-Frühere Stände: `SPRINT_LOG.md` beschreibt einen älteren Relaunch (inzwischen ersetzt) und ist nur noch Archiv. Die Version mit scrollgesteuertem Sonnenuntergang liegt im Git-Tag `sonnenuntergang-version`, falls vorhanden.
+Frühere Stände: `SPRINT_LOG.md` beschreibt einen älteren Relaunch (inzwischen ersetzt) und ist nur noch Archiv. Die Version mit scrollgesteuertem Sonnenuntergang liegt im Git-Tag `sonnenuntergang-version`.
