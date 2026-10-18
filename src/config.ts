@@ -50,6 +50,8 @@ export const texts = {
   homeTitle: 'Jaime Imhof — Mediamatiker EFZ, Video & Social Content | Portfolio',
   homeDescription:
     'Jaime Imhof, Mediamatiker EFZ aus Thun. Video, Foto und Social Content mit Fokus auf Sport und Events. Portfolio und Kontakt.',
+  aboutDescription:
+    'Jaime Imhof, Mediamatiker EFZ aus Thun. Video und Foto für Social Media, Sport und Events. Mehr über mich und meine Arbeit.',
   about:
     'Ich bin Jaime, aufgewachsen und wohnhaft in Thun. Wenn ich nicht gerade am Set oder unterwegs bin, sitz ich auf dem Rennrad, laufe eine Runde oder bin im CrossFit- bzw. Hyrox-Training. Genau dieser Antrieb aus dem Sport ist es, den ich in meine Arbeit mitnehme.',
   // Home "Wer bin ich": facts from the CV only.

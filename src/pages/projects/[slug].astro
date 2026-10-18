@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import YouTube from '../../components/YouTube.astro';
 import { projects, nextProjects, type Project, type Img } from '../../data/projects';
@@ -11,6 +11,8 @@ export function getStaticPaths() {
 interface Props { project: Project }
 const { project: p } = Astro.props;
 const more = nextProjects(p.slug);
+// Own Open Graph image (1200 × 630) from the cover.
+const og = await getImage({ src: p.cover.src, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
 const pic = (img: Img, wide = false) => ({
   src: img.src,
   alt: img.alt,
@@ -20,7 +22,7 @@ const pic = (img: Img, wide = false) => ({
 });
 ---
 
-<Base title={p.title} description={p.text}>
+<Base title={p.seoTitle} description={p.beschreibung} image={og.src}>
   <article>
     <header class="head">
       <p class="t-h6">{p.category}</p>

@@ -39,8 +39,12 @@ export interface Img {
 export interface Project {
   slug: string;
   title: string;
+  // Page title (before " | Jaime Imhof") and meta description (max 155 characters).
+  seoTitle: string;
+  beschreibung: string;
   category: 'Video' | 'Fotografie';
   industry: string;
+  // A year or a period like '2024 – heute'.
   year: string;
   client: string;
   // What Jaime did himself.
@@ -60,12 +64,14 @@ export const projects: Project[] = [
   {
     slug: 'ipa-derendinger',
     title: 'IPA',
+    seoTitle: 'IPA, Imagefilm für Derendinger',
+    beschreibung: 'Imagefilm für Derendinger: der Weg eines Ersatzteils vom Web-Shop zur Auslieferung. Idee, Dreh, Schnitt und Motion Design von Jaime Imhof.',
     category: 'Video',
     industry: 'Automotive',
     year: '2026',
     client: 'Derendinger',
     role: 'Idee, Dreh, Schnitt, Motion Design',
-    text: 'Meine Lehrabschlussarbeit für Derendinger AG, von der Idee bis zum fertigen Schnitt allein umgesetzt. Ein Marketingvideo, das zeigt, wie ein Ersatzteil vom Bestellen im Web-Shop über das AutoStore-Lager in Niederbipp bis zur Auslieferung kommt. Schnitt, Motion Design und Animationen komplett in Premiere Pro und After Effects.',
+    text: 'Meine Lehrabschlussarbeit für Derendinger AG: ein Imagefilm, der zeigt, wie ein Ersatzteil von der Bestellung im Web-Shop über das AutoStore-Lager in Niederbipp bis zur Auslieferung kommt. Idee, Dreh, Schnitt, Motion Design in After Effects (Mocha, Expressions) und Farbkorrektur in DaVinci Resolve habe ich allein umgesetzt.',
     cover: { src: ipaCover, alt: 'Mechaniker in einer Autowerkstatt, Standbild aus dem IPA-Film' },
     lead: { src: ipaAutostore, alt: 'Gestapelte Lagerbehälter mit Etiketten im AutoStore-Lager, Standbild aus dem IPA-Film' },
     second: { src: ipaLager, alt: 'Förderband im automatischen Ersatzteillager, Standbild aus dem IPA-Film' },
@@ -75,6 +81,8 @@ export const projects: Project[] = [
   {
     slug: 'event-video-gpmc',
     title: 'Event Video',
+    seoTitle: 'Event Video für GPMC',
+    beschreibung: 'Event Video für GPMC: Kamera und Schnitt von Jaime Imhof. Ruhige Bilder von Publikum und Open-Air-Bühne.',
     category: 'Video',
     industry: 'Event',
     year: '2026',
@@ -88,12 +96,14 @@ export const projects: Project[] = [
   {
     slug: 'event-foto-blessthun',
     title: 'Event Fotografie',
+    seoTitle: 'Eventfotografie für BlessThun',
+    beschreibung: 'Eventfotografie für die Jugendgruppe BlessThun: seit 2024 jeden Monat ein Anlass, Fotos und Video vor Ort von Jaime Imhof.',
     category: 'Fotografie',
     industry: 'Event',
-    year: '2025',
+    year: '2024 – heute',
     client: 'BlessThun',
     role: 'Planung, Fotografie',
-    text: 'Content für BlessThun, im Auftrag der Organisatoren. Social-Media-Material und Live-Fotografie direkt am Event, von der Planung bis zum fertigen Bild.',
+    text: 'Seit 2024 begleite ich jeden Monat einen Anlass der Jugendgruppe BlessThun, rund 24 bisher, meist abends oder am Wochenende. Fotos und Videos direkt vor Ort, Content für den offiziellen Instagram-Account, im Auftrag der Veranstalter.',
     cover: { src: blessCover, alt: 'Gitarrist mit Brille spielt im warmen Bühnenlicht, Publikum im Vordergrund' },
     second: { src: blessPublikum, alt: 'Lachende junge Frau im Publikum eines Konzerts' },
     gallery: [
@@ -106,6 +116,8 @@ export const projects: Project[] = [
   {
     slug: 'capoeira-capu',
     title: 'Capoeira',
+    seoTitle: 'Capoeira Video für CAPU',
+    beschreibung: 'Capoeira-Video für CAPU: Kamera und Schnitt von Jaime Imhof. Bewegung im Fokus, schnelle Schnitte und viel Nahaufnahme.',
     category: 'Video',
     industry: 'Event',
     year: '2024',
@@ -119,6 +131,8 @@ export const projects: Project[] = [
   {
     slug: 'tunis-streetlife',
     title: 'Tunis Streetlife',
+    seoTitle: 'Tunis Streetlife, Fotoprojekt',
+    beschreibung: 'Tunis Streetlife: persönliches Fotoprojekt von Jaime Imhof, Street-Fotografie zwischen Alltag und Architektur.',
     category: 'Fotografie',
     industry: 'Dokumentation',
     year: '2026',
@@ -137,6 +151,8 @@ export const projects: Project[] = [
   {
     slug: 'tour-de-suisse',
     title: 'Tour de Suisse',
+    seoTitle: 'Tour de Suisse, Fotoprojekt',
+    beschreibung: 'Tour de Suisse: persönliches Fotoprojekt von Jaime Imhof, die Stimmung am Streckenrand eingefangen.',
     category: 'Fotografie',
     industry: 'Event',
     year: '2026',
