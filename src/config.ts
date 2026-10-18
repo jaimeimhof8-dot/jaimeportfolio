@@ -39,9 +39,9 @@ export const nav = [
 ];
 
 export const texts = {
-  homeTitle: 'Jaime Imhof — Mediamatiker EFZ, Video & Social Content | Portfolio',
+  homeTitle: 'Jaime Imhof — Mediamatiker EFZ, Video und Social Content | Portfolio',
   homeDescription:
-    'Jaime Imhof, Mediamatiker EFZ aus Thun. Video, Foto und Social Content mit Fokus auf Sport und Events. Portfolio und Kontakt.',
+    'Jaime Imhof, Mediamatiker EFZ aus Thun. Video, Foto und Social Content. Portfolio und Kontakt.',
   aboutDescription:
     'Jaime Imhof, Mediamatiker EFZ aus Thun. Video und Foto für Social Media, Sport und Events. Mehr über mich und meine Arbeit.',
   about:
