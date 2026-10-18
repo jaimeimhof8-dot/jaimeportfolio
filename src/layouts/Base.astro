@@ -48,6 +48,13 @@ const jsonLd = {
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
+    <!-- --u must follow the width without the scrollbar: 100vw includes it and made Home and About scroll sideways on Windows. -->
+    <script is:inline>
+      new ResizeObserver(() => {
+        const r = document.documentElement;
+        r.style.setProperty('--u', Math.min(r.clientWidth, 1440) / 1440 + 'px');
+      }).observe(document.documentElement);
+    </script>
     <link rel="preload" href={mono700} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={poppins300} as="font" type="font/woff2" crossorigin />
     <meta name="description" content={description} />

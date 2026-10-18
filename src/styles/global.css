@@ -13,6 +13,7 @@
   --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
   --font-sans: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
 
+  /* Fallback; Base.astro overrides it with the width without the scrollbar. */
   --u: calc(min(100vw, 1440px) / 1440);
   --pad: 20px;
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -26,7 +27,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 
-html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; overflow-x: clip; }
 
 body {
   margin: 0;

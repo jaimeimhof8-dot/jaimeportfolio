@@ -54,6 +54,20 @@ check('404-Seite', ((await phone.textContent('h1')) ?? '').includes('gibt es nic
 await phone.goto(base + '/robots.txt');
 check('robots.txt mit Sitemap', ((await phone.textContent('body')) ?? '').includes('sitemap-index.xml'));
 
+// Classic, visible scrollbar (Windows/Linux desktop): headless Chrome hides it by default, so the check above never saw
+// the 15 px overflow caused by 100vw. scrollWidth must not exceed clientWidth (the width without the scrollbar).
+const classic = await chromium.launch({ channel: 'chrome', ignoreDefaultArgs: ['--hide-scrollbars'] });
+for (const width of [1440, 1024]) {
+  const page = await (await classic.newContext({ viewport: { width, height: 900 } })).newPage();
+  for (const path of ['/', '/about/', '/projects/', '/projects/ipa-derendinger/', '/contact/']) {
+    await page.goto(base + path, { waitUntil: 'networkidle' });
+    const { sw, cw, bar } = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, cw: document.documentElement.clientWidth, bar: innerWidth - document.documentElement.clientWidth }));
+    check(`Sichtbare Scrollleiste ${width}px ${path}: kein seitliches Scrollen (${sw} / ${cw}, Leiste ${bar}px)`, bar > 0 && sw <= cw);
+  }
+  await page.close();
+}
+await classic.close();
+
 await browser.close();
 console.log(results.join('\n'));
 process.exitCode = results.some((r) => r.startsWith('FAIL')) ? 1 : 0;
