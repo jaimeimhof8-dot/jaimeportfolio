@@ -116,10 +116,19 @@ const path = Astro.url.pathname;
 <script>
   const bar = document.querySelector<HTMLElement>('.topbar');
   const button = bar?.querySelector<HTMLButtonElement>('.menu-btn');
-  button?.addEventListener('click', () => {
-    const open = !bar!.classList.contains('is-open');
+  const setOpen = (open: boolean) => {
     bar!.classList.toggle('is-open', open);
-    button.setAttribute('aria-expanded', String(open));
+    button?.setAttribute('aria-expanded', String(open));
+  };
+  button?.addEventListener('click', () => setOpen(!bar!.classList.contains('is-open')));
+  // Escape closes the menu and puts the focus back on its button; so does a click outside the bar.
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape' || !bar!.classList.contains('is-open')) return;
+    setOpen(false);
+    button?.focus();
+  });
+  document.addEventListener('click', (e) => {
+    if (bar!.classList.contains('is-open') && !bar!.contains(e.target as Node)) setOpen(false);
   });
 
   // Home hero: the bar has no background, so every item checks whether a photo or the grey block is behind it.
