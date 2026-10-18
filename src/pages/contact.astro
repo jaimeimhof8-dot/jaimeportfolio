@@ -1,43 +1,34 @@
 ---
 import Base from '../layouts/Base.astro';
 import CopyButton from '../components/CopyButton.astro';
-import { contact, mailto, person } from '../config';
+import { contact, mailto, person, social } from '../config';
 ---
 
 <Base title="Kontakt" description={`Kontakt zu ${person.name}: E-Mail ${contact.email}, Telefon ${contact.phoneDisplay}.`}>
   <section class="contact" aria-labelledby="contact-title">
     <h1 id="contact-title" class="t-h2">Kontaktiere mich</h1>
-    <div class="cols">
-      <div class="info">
-        <p class="lbl">E-Mail</p>
-        <div class="val-row"><a class="val" href={mailto}>{contact.email}</a><CopyButton text={contact.email} /></div>
-        <p class="lbl">Telefon</p>
-        <a class="val" href={contact.phoneHref}>{contact.phoneDisplay}</a>
-        <p class="lbl">Ort</p>
-        <p class="val">
-          {contact.showStreetAddress && contact.streetAddress && <>{contact.streetAddress}<br /></>}
-          {contact.zip} {person.city}
-        </p>
-      </div>
-      <hr class="divider" />
-      <!-- No server: sending opens the visitor's mail program with the message filled in. -->
-      <form class="form" data-to={contact.email}>
-        <label for="f-name">Name</label>
-        <input id="f-name" name="name" type="text" autocomplete="name" required />
-        <label for="f-email">E-Mail</label>
-        <input id="f-email" name="email" type="email" autocomplete="email" required />
-        <label for="f-message">Nachricht</label>
-        <textarea id="f-message" name="message" rows="4" required></textarea>
-        <button class="send" type="submit">Nachricht senden</button>
-        <p class="hint">Öffnet dein E-Mail-Programm mit der fertigen Nachricht.</p>
-      </form>
+    <div class="info">
+      <p class="lbl">E-Mail</p>
+      <div class="val-row"><a class="val" href={mailto}>{contact.email}</a><CopyButton text={contact.email} /></div>
+      <p class="lbl">Telefon</p>
+      <a class="val" href={contact.phoneHref}>{contact.phoneDisplay}</a>
+      <p class="lbl">Ort</p>
+      <p class="val">
+        {contact.showStreetAddress && contact.streetAddress && <>{contact.streetAddress}<br /></>}
+        {contact.zip} {person.city}
+      </p>
+      <p class="lbl">Social</p>
+      <p class="val val--links">
+        <a href={social.instagram} rel="me noopener" target="_blank">Instagram</a>
+        <a href={social.linkedin} rel="me noopener" target="_blank">LinkedIn</a>
+      </p>
     </div>
   </section>
 </Base>
 
 <style>
   .contact { padding: 140px 20px 100px; }
-  .cols { display: grid; margin-top: 40px; }
+  .info { margin-top: 40px; }
   .lbl { font-weight: 300; color: var(--muted); }
   .val-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; margin: 1px 0 50px; }
   .val-row .val { margin: 0; }
@@ -53,65 +44,14 @@ import { contact, mailto, person } from '../config';
     color: var(--text);
     overflow-wrap: anywhere;
   }
-  a.val:hover { text-decoration: underline; text-underline-offset: 0.2em; }
-  .info .val:last-child { margin-bottom: 39px; }
-  .divider { margin-bottom: 40px; }
-
-  .form { display: flex; flex-direction: column; }
-  label { font-weight: 300; margin-bottom: 10px; }
-  input, textarea {
-    width: 100%;
-    margin-bottom: 24px;
-    padding: 12px 14px;
-    border: 1px solid transparent;
-    transition: border-color 0.2s var(--ease);
-    border-radius: 4px;
-    background: var(--field);
-    color: var(--text);
-    font: 400 16px/1.5 var(--font-sans);
-  }
-  input { height: 49px; }
-  textarea { height: 100px; resize: vertical; }
-  input:hover, textarea:hover { border-color: var(--line); }
-  input:focus-visible, textarea:focus-visible { outline: 0; border-color: var(--text); }
-  .send {
-    align-self: center;
-    min-width: 95px;
-    min-height: 48px;
-    padding: 0 28px;
-    border: 0;
-    border-radius: 4px;
-    background: var(--white);
-    color: #000;
-    font: 400 16px/1 var(--font-sans);
-    cursor: pointer;
-    transition: background-color 0.2s var(--ease), transform 0.15s var(--ease);
-  }
-  .send:hover { background: var(--light); }
-  .send:active { transform: scale(0.98); }
-  .hint { margin-top: 12px; text-align: center; font-size: 13px; color: var(--muted); }
+  a.val:hover, .val--links a:hover { text-decoration: underline; text-underline-offset: 0.2em; }
+  .val--links { display: flex; flex-wrap: wrap; gap: 8px 32px; margin-bottom: 0; }
 
   @media (min-width: 810px) {
-    .contact { padding: 180px var(--pad) 100px; }
-    .cols { grid-template-columns: 1fr 1fr; gap: 0 calc(10 * var(--u)); margin-top: 80px; }
-    .cols .divider { display: none; }
+    .contact { padding: 180px var(--pad) 140px; }
+    .info { margin-top: 80px; }
     .val { font-size: 24px; margin: 13px 0 40px; }
     .val-row { margin: 13px 0 40px; }
-    .form { padding-left: calc(10 * var(--u)); }
-    .send { min-width: 120px; min-height: 49px; }
+    .val--links { margin-bottom: 0; }
   }
 </style>
-
-<script>
-  const form = document.querySelector<HTMLFormElement>('.form');
-  form?.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const data = new FormData(form);
-    const name = String(data.get('name') ?? '').trim();
-    const email = String(data.get('email') ?? '').trim();
-    const message = String(data.get('message') ?? '').trim();
-    const subject = `Anfrage von ${name}`;
-    const body = `${message}\n\n${name}\n${email}`;
-    window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-  });
-</script>
