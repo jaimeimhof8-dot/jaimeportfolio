@@ -42,6 +42,7 @@ const right = [
         ))}
       </div>
       <span class="mouse" aria-hidden="true"></span>
+      <span class="scroll-hint" aria-hidden="true">Scroll<span>↓</span></span>
       <div class="name-block">
         <h1 id="name" class="name">{person.logo}</h1>
         <div class="facts">
@@ -52,7 +53,16 @@ const right = [
     </div>
   </section>
 
-  <!-- 2. Wer bin ich -->
+  <!-- 2. Ausgewählte Arbeiten -->
+  <section id="arbeiten" class="works" aria-labelledby="works-title">
+    <h2 id="works-title" class="t-h2">Ausgewählte Arbeiten</h2>
+    <ProjectGrid projects={featured} />
+    <p class="more"><a class="pill" href="/projects/">Alle Arbeiten</a></p>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- 3. Wer bin ich -->
   <section class="who" aria-labelledby="who-title">
     <div class="who-head">
       <h2 id="who-title" class="t-h2">Wer bin ich</h2>
@@ -66,15 +76,6 @@ const right = [
       <div class="ph ph2"><Picture formats={['avif', 'webp']} src={gitarrist} alt="Gitarrist in Bewegung, mit Langzeitbelichtung, schwarz-weiss" widths={[400, 700, 1000]} sizes="(min-width: 810px) 35vw, 90vw" loading="lazy" /></div>
       <div class="ph ph3"><Picture formats={['avif', 'webp']} src={bewegung} alt="Tänzer in Bewegung mit Langzeitbelichtung, schwarz-weiss" widths={[400, 700, 1000]} sizes="(min-width: 810px) 35vw, 90vw" loading="lazy" /></div>
     </div>
-  </section>
-
-  <hr class="divider" />
-
-  <!-- 3. Ausgewählte Arbeiten -->
-  <section id="arbeiten" class="works" aria-labelledby="works-title">
-    <h2 id="works-title" class="t-h2">Ausgewählte Arbeiten</h2>
-    <ProjectGrid projects={featured} />
-    <p class="more"><a class="pill" href="/projects/">Alle Arbeiten</a></p>
   </section>
 
   <hr class="divider" />
@@ -109,6 +110,7 @@ const right = [
   .slide.is-on { opacity: 1; }
 
   .mouse {
+    display: none;
     position: absolute;
     left: 50%;
     bottom: 126px;
@@ -131,6 +133,31 @@ const right = [
     border-radius: 2px;
     background: #fff;
     animation: wheel 1.6s var(--ease) infinite;
+  }
+  /* Touch: a text hint instead of the mouse symbol. */
+  .scroll-hint {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 126px;
+    z-index: 3;
+    display: grid;
+    justify-items: center;
+    gap: 6px;
+    color: #fff;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 12px rgb(0 0 0 / 0.6);
+    opacity: calc(1 - var(--p) * 4);
+    pointer-events: none;
+  }
+  .scroll-hint span { font-size: 16px; animation: hint 1.6s var(--ease) infinite; }
+  @keyframes hint { 50% { transform: translateY(5px); } }
+  @media (hover: hover) and (pointer: fine) {
+    .mouse { display: block; }
+    .scroll-hint { display: none; }
   }
   @keyframes wheel { from { transform: translateY(0); opacity: 1; } to { transform: translateY(14px); opacity: 0; } }
 
@@ -199,7 +226,7 @@ const right = [
   }
 
   /* Ausgewählte Arbeiten */
-  .works { padding: 40px 0; text-align: center; }
+  .works { padding: 80px 0 40px; text-align: center; }
   .works h2 { margin-bottom: 80px; }
   .works :global(.grid) { text-align: left; }
   .more { margin-top: 40px; }
@@ -211,7 +238,7 @@ const right = [
   @media (prefers-reduced-motion: reduce) {
     .hero { height: auto; }
     .stage { position: relative; height: auto; }
-    .side, .mouse { display: none; }
+    .side, .mouse, .scroll-hint { display: none; }
     .name-block { position: relative; padding-block: 140px 100px; opacity: 1; transform: none; }
   }
 </style>
@@ -222,6 +249,7 @@ const right = [
   if (stage && !reduce.matches) {
     // --p: how far the grey block has opened, --q: name block rising into place.
     let ticking = false;
+    let opened = false;
     const update = () => {
       ticking = false;
       const vh = window.innerHeight;
@@ -230,6 +258,7 @@ const right = [
       const p = Math.min(1, Math.max(0, y / (vh * (wide ? 1.2 : 1))));
       // The name only comes in once the photos have made room, so it never sits on top of them.
       const q = Math.min(1, Math.max(0, (p - 0.62) / 0.38));
+      opened = p >= 1;
       stage.style.setProperty('--p', p.toFixed(4));
       stage.style.setProperty('--q', q.toFixed(4));
     };
@@ -241,8 +270,11 @@ const right = [
     // Both slots switch to the next photo together.
     const sides = [...stage.querySelectorAll<HTMLElement>('.side')].map((s) => [...s.querySelectorAll<HTMLElement>('.slide')]);
     let i = 0;
+    // No point in switching photos nobody sees: the hero is off screen or the grey block is fully open.
+    let inView = true;
+    new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; }).observe(stage.parentElement!);
     window.setInterval(() => {
-      if (document.hidden) return;
+      if (document.hidden || !inView || opened) return;
       i = (i + 1) % sides[0].length;
       sides.forEach((slides) => slides.forEach((img, n) => img.classList.toggle('is-on', n === i)));
     }, 1200);
