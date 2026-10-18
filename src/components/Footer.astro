@@ -31,7 +31,7 @@ const year = new Date().getFullYear();
       <li><a href={social.linkedin} rel="me noopener" target="_blank">LinkedIn</a></li>
     </ul>
   </div>
-  <p class="t-h6 copy">{year} © {person.logo}</p>
+  <p class="t-h6 copy">{year} © {person.logo} · <a href="/datenschutz/">Datenschutz</a></p>
 </footer>
 
 <style>
@@ -57,7 +57,8 @@ const year = new Date().getFullYear();
   li a { color: var(--text); background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.3s var(--ease); }
   li a:hover { background-size: 100% 1px; }
   .mail { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
-  .copy { grid-column: 1 / -1; white-space: nowrap; }
+  .copy { grid-column: 1 / -1; }
+  .copy a { text-decoration: underline; text-underline-offset: 0.2em; }
 
   @media (min-width: 810px) {
     .footer {

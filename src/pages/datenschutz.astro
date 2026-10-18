@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import { contact, mailto, person } from '../config';
+
+// Update when the content changes.
+const stand = '18. Oktober 2026';
+---
+
+<Base title="Datenschutz" description="Datenschutz auf der Website von Jaime Imhof: keine Cookies, kein Tracking, YouTube erst nach Klick.">
+  <article class="legal">
+    <h1 class="t-h2">Datenschutz</h1>
+    <p class="stand">Stand: {stand}</p>
+
+    <h2 class="t-h4">Kurz gesagt</h2>
+    <p>Diese Website setzt keine Cookies und verwendet kein Tracking und keine Statistik-Dienste. Es gibt kein Formular, das Daten an einen Server schickt.</p>
+
+    <h2 class="t-h4">Hosting</h2>
+    <p>Die Seite wird über Cloudflare ausgeliefert. Dabei verarbeitet der Anbieter technisch notwendige Verbindungsdaten wie die IP-Adresse, um die Seite anzuzeigen und vor Missbrauch zu schützen. Schriften und Bilder liegen auf derselben Domain, es werden keine externen Schriften nachgeladen.</p>
+
+    <h2 class="t-h4">YouTube-Videos</h2>
+    <p>Auf Projektseiten sind Videos von YouTube eingebettet. Sie laden erst, wenn du auf das Vorschaubild klickst, und dann über <span class="nowrap">youtube-nocookie.com</span>. Erst ab diesem Klick verbindet sich dein Browser mit YouTube. Es gelten die Datenschutzbestimmungen von YouTube.</p>
+
+    <h2 class="t-h4">Kontakt</h2>
+    <p>Wenn du mir schreibst, verwende ich deine E-Mail-Adresse und deine Nachricht nur, um dir zu antworten. Du erreichst mich unter <a href={mailto}>{contact.email}</a> oder telefonisch unter <a href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>
+
+    <h2 class="t-h4">Externe Links</h2>
+    <p>Die Links zu Instagram und LinkedIn führen auf fremde Seiten, für deren Datenschutz die jeweiligen Anbieter verantwortlich sind.</p>
+
+    <h2 class="t-h4">Verantwortlich</h2>
+    <p>{person.name}, {contact.zip} {person.city}, {person.country}</p>
+  </article>
+</Base>
+
+<style>
+  .legal { max-width: 68ch; margin: 0 auto; padding: 140px 20px 100px; }
+  .legal h2 { margin-top: 48px; margin-bottom: 12px; }
+  .stand { margin-top: 12px; color: var(--muted); }
+  .legal a { text-decoration: underline; text-underline-offset: 0.2em; }
+  .nowrap { white-space: nowrap; }
+  @media (min-width: 810px) {
+    .legal { padding: 200px var(--pad) 140px; }
+    .legal p { font-size: 17px; line-height: 1.7; }
+  }
+</style>
