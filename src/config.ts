@@ -51,7 +51,7 @@ export const texts = {
   homeDescription:
     'Jaime Imhof, Mediamatiker EFZ aus Thun. Video, Foto und Social Content mit Fokus auf Sport und Events. Portfolio und Kontakt.',
   about:
-    'Ich bin Jaime, 20 Jahre alt, aufgewachsen und wohnhaft in Thun. Wenn ich nicht gerade am Set oder unterwegs bin, sitz ich auf dem Rennrad, laufe eine Runde oder bin im CrossFit- bzw. Hyrox-Training. Genau dieser Antrieb aus dem Sport ist es, den ich in meine Arbeit mitnehme.',
+    'Ich bin Jaime, aufgewachsen und wohnhaft in Thun. Wenn ich nicht gerade am Set oder unterwegs bin, sitz ich auf dem Rennrad, laufe eine Runde oder bin im CrossFit- bzw. Hyrox-Training. Genau dieser Antrieb aus dem Sport ist es, den ich in meine Arbeit mitnehme.',
   // Home "Wer bin ich": facts from the CV only.
   intro:
     'Ich bin Mediamatiker EFZ und habe meine Lehre 2026 bei Derendinger AG abgeschlossen. Ich plane, drehe und schneide Videos für Marketing und Social Media, fotografiere Events und setze Motion Design in After Effects um. Am liebsten arbeite ich draussen.',
