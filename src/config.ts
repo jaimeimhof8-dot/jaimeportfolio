@@ -7,23 +7,15 @@ export const person = {
   name: 'Jaime Imhof',
   logo: 'JAIME IMHOF',
   jobTitle: 'Mediamatiker EFZ',
-  // Wording from the CV.
-  role: 'Mediamatiker EFZ · Video, Fotografie, Motion Design & Social Content',
-  availability: 'Thun, Raum Bern · frisch ausgelernt · verfügbar ab sofort, 100 %',
-  pitch: 'Ich drehe und schneide Videos für Social Media selbst und halte mich dabei an die Vorgaben der Marke.',
-  discipline: 'Video, Social Content & Motion Design',
   city: 'Thun',
   country: 'Schweiz',
   countryCode: 'CH',
-  geoLabel: '46.758° N · 7.628° E',
 };
 
 export const contact = {
   email: 'jaimeimhof8@gmail.com',
   phoneDisplay: '077 525 67 27',
   phoneHref: 'tel:+41775256727',
-  phoneCompact: '0775256727',
-  location: 'Thun, Schweiz',
   zip: '3603',
   showStreetAddress: false,
   // Only shown when showStreetAddress is true. Left empty on purpose so it never ends up in the public repository.
@@ -35,8 +27,8 @@ export const social = {
   linkedin: 'https://www.linkedin.com/in/jaime-imhof-811a09342/',
 };
 
-// TODO: set a path like '/Lebenslauf_Jaime_Imhof.pdf' once a CV without birth date and street exists in public/.
-export const cvUrl: string | null = null;
+// CV without birth date and street, in public/.
+export const cvUrl: string | null = '/Lebenslauf_Jaime_Imhof_Web.pdf';
 
 export const mailto = `mailto:${contact.email}`;
 
@@ -59,7 +51,6 @@ export const texts = {
     'Ich bin Mediamatiker EFZ und habe meine Lehre 2026 bei Derendinger AG abgeschlossen. Ich plane, drehe und schneide Videos für Marketing und Social Media, fotografiere Events und setze Motion Design in After Effects um. Am liebsten arbeite ich draussen.',
   worksIntro:
     'Eine Auswahl meiner Arbeiten aus Video, Social Media und Content-Produktion. Von der ersten Idee bis zum letzten Schnitt hab ich alles selbst gemacht.',
-  contactHeading: 'Ich freue mich über Ihre Nachricht.',
 };
 
 // Career, word for word from the CV (Lebenslauf_Jaime_Imhof.pdf).
@@ -89,10 +80,6 @@ export const experience = [
   },
 ];
 
-export const education = [
-  { period: '2022 – 2026', title: 'Mediamatiker EFZ', detail: 'Eidgenössisches Fähigkeitszeugnis' },
-];
-
 // Key facts for recruiters (from the CV).
 export const keyFacts = [
   { label: 'Verfügbar', value: 'ab sofort, 100 %' },
@@ -106,7 +93,7 @@ export const tools = [
   { label: 'Video', items: 'Premiere Pro, CapCut, After Effects (Mocha, Expressions), DaVinci Resolve' },
   { label: 'Foto', items: 'Lightroom, Photoshop' },
   { label: 'Design', items: 'Illustrator, InDesign' },
-  { label: 'Kamera', items: 'Sony a7 III' },
+  { label: 'Kamera', items: 'Sony Alpha 7' },
 ];
 
 export const languages = [

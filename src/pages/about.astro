@@ -2,7 +2,7 @@
 import { Picture } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import ContactCta from '../components/ContactCta.astro';
-import { texts } from '../config';
+import { texts, keyFacts, experience, tools, languages, cvUrl } from '../config';
 import portrait from '../../material/site/about/portrait.jpg';
 import aussicht from '../../material/site/about/aussicht.jpg';
 import stehend from '../../material/site/about/stehend.jpg';
@@ -21,6 +21,40 @@ import stehend from '../../material/site/about/stehend.jpg';
     </div>
   </section>
 
+  <section class="cv" aria-labelledby="cv-title">
+    <h2 id="cv-title" class="t-h2">Werdegang und Tools</h2>
+    <dl class="rows">
+      {keyFacts.map((f) => (
+        <div class="row"><dt class="t-h6">{f.label}</dt><dd>{f.value}</dd></div>
+      ))}
+      <div class="row">
+        <dt class="t-h6">Werdegang</dt>
+        <dd>
+          <ul>
+            {experience.map((e) => <li><span class="period">{e.period}</span> {e.org}<span class="sub">{e.role}</span></li>)}
+          </ul>
+        </dd>
+      </div>
+      <div class="row">
+        <dt class="t-h6">Software und Kamera</dt>
+        <dd>
+          <ul>
+            {tools.map((t) => <li><span class="period">{t.label}</span> {t.items}</li>)}
+          </ul>
+        </dd>
+      </div>
+      <div class="row">
+        <dt class="t-h6">Sprachen</dt>
+        <dd>
+          <ul>
+            {languages.map((l) => <li><span class="period">{l.label}</span> {l.level}</li>)}
+          </ul>
+        </dd>
+      </div>
+    </dl>
+    {cvUrl && <a class="pill" href={cvUrl} download>Lebenslauf herunterladen</a>}
+  </section>
+
   <hr class="divider" />
 
   <ContactCta />
@@ -37,7 +71,20 @@ import stehend from '../../material/site/about/stehend.jpg';
   .ph2 { aspect-ratio: 1; }
   .ph3 { aspect-ratio: 350 / 406; }
 
+  .cv { padding: 40px 20px 100px; }
+  .rows { margin: 40px 0 48px; border-top: 1px solid var(--line); }
+  .row { display: grid; gap: 8px; padding: 20px 0; border-bottom: 1px solid var(--line); }
+  .row dd { margin: 0; }
+  .row ul { margin: 0; padding: 0; list-style: none; }
+  .row li + li { margin-top: 6px; }
+  .period { display: inline-block; min-width: 7.5em; color: var(--muted); font-family: var(--font-mono); font-size: 14px; letter-spacing: 0.02em; }
+  .sub { display: block; color: var(--muted); font-size: 14px; }
+
   @media (min-width: 810px) {
+    .cv { padding: 60px var(--pad) 140px; }
+    .rows { margin: 56px 0 56px; }
+    .row { grid-template-columns: calc(280 * var(--u)) 1fr; gap: 0 calc(40 * var(--u)); padding: 24px 0; }
+    .row li { font-size: 18px; }
     .about { padding: 179px 0 79px; }
     .head { display: flex; justify-content: space-between; align-items: flex-start; padding: 0 calc(108 * var(--u)) 0 var(--pad); }
     .text { width: calc(440 * var(--u)); min-width: 320px; margin-top: 2px; font-size: 18px; line-height: 1.7; }
