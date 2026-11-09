@@ -10,6 +10,12 @@ import flyer03 from '../../material/projects/flyer-opening-day/03.jpg';
 import flyer04 from '../../material/projects/flyer-opening-day/04.jpg';
 import flyer05 from '../../material/projects/flyer-opening-day/05.jpg';
 import flyer06 from '../../material/projects/flyer-opening-day/06.jpg';
+import sasCover from '../../material/projects/sas-2026-serie/cover.jpg';
+import sas02 from '../../material/projects/sas-2026-serie/02.jpg';
+import sas03 from '../../material/projects/sas-2026-serie/03.jpg';
+import sas04 from '../../material/projects/sas-2026-serie/04.jpg';
+import sas05 from '../../material/projects/sas-2026-serie/05.jpg';
+import sas06 from '../../material/projects/sas-2026-serie/06.jpg';
 import gpmcCover from '../../material/site/gpmc/cover.jpg';
 import gpmcPublikum from '../../material/site/gpmc/publikum.jpg';
 import blessCover from '../../material/site/blessthun/cover.jpg';
@@ -48,7 +54,7 @@ export interface Project {
   // Page title (before " | Jaime Imhof") and meta description (max 155 characters).
   seoTitle: string;
   beschreibung: string;
-  category: 'Video' | 'Fotografie' | 'Grafik';
+  category: 'Video' | 'Fotografie' | 'Grafik' | 'Social Media';
   industry: string;
   // A year or a period like '2024 – heute'.
   year: string;
@@ -109,6 +115,26 @@ export const projects: Project[] = [
       { src: flyer04, alt: 'Orangefarbenes Rahmenposter mit grossen Zeitzahlen auf der Rückseite' },
       { src: flyer05, alt: 'Vorderseite in Schwarzweiss neben der Vorderseite in Farbe' },
       { src: flyer06, alt: 'Vier mit KI erzeugte Fotos: Schuh im Staub, Fahrer in Bewegungsunschärfe, Sprung im Gegenlicht und Rad in der Kurve' },
+    ],
+  },
+  {
+    slug: 'sas-2026-serie',
+    title: 'SAS 2026 Serie',
+    seoTitle: 'SAS 2026 Serie, Social Media für Derendinger',
+    beschreibung: 'Social-Media-Serie für Derendinger zur Swiss Automotive Show 2026: sieben Beiträge, je eine Produktgruppe. Gestaltung und KI-Bilder von Jaime Imhof.',
+    category: 'Social Media',
+    industry: 'Automotive',
+    year: '2026',
+    client: 'Derendinger',
+    role: 'Gestaltung, KI-Bilder',
+    text: 'Sieben Beiträge für den LinkedIn-Auftritt von Derendinger zur Swiss Automotive Show 2026, je einer pro Produktgruppe: Ersatzteile für Personenwagen und Nutzfahrzeuge, Werkstatteinrichtung, Verbände, Reifen, Carrosserie und Verbrauchsgüter. Ich habe die Beiträge gestaltet und die Bilder mit KI erzeugt.',
+    cover: { src: sasCover, alt: 'Zwei Beiträge der Serie: Ersatzteile für Personenwagen mit Bremsscheibe, Luftfilter und Lichtmaschine, und Ersatzteile für Nutzfahrzeuge mit einem Lastwagen' },
+    second: { src: sas02, alt: 'Zwei Beiträge der Serie: Werkstatteinrichtung mit Werkzeugkoffer und Schlüsseln, und Verbände mit einer Metallkette' },
+    gallery: [
+      { src: sas03, alt: 'Drei Beiträge der Serie: Reifen mit Felge, Carrosserie mit Fahrzeugtür und Spritzpistole, Verbrauchsgüter mit Ölflasche und Kolben' },
+      { src: sas04, alt: 'Nahaufnahme der KI-Bilder: Bremsscheibe, Luftfilter und Lichtmaschine auf grünem Verlauf' },
+      { src: sas05, alt: 'Nahaufnahme des KI-Bildes: Reifen mit Felge und leuchtend grünen Speichen' },
+      { src: sas06, alt: 'Alle sieben Beiträge der Serie nebeneinander, gleiche Farbwelt mit grünem Verlauf und gelbgrünem Balken am linken Rand' },
     ],
   },
   {
