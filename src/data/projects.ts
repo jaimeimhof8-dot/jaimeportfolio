@@ -4,6 +4,12 @@ import type { ImageMetadata } from 'astro';
 import ipaCover from '../../material/site/ipa/cover.jpg';
 import ipaLager from '../../material/site/ipa/lager.jpg';
 import ipaAutostore from '../../material/projects/ipa-derendinger/frame-autostore.jpg';
+import flyerCover from '../../material/projects/flyer-opening-day/cover.jpg';
+import flyer02 from '../../material/projects/flyer-opening-day/02.jpg';
+import flyer03 from '../../material/projects/flyer-opening-day/03.jpg';
+import flyer04 from '../../material/projects/flyer-opening-day/04.jpg';
+import flyer05 from '../../material/projects/flyer-opening-day/05.jpg';
+import flyer06 from '../../material/projects/flyer-opening-day/06.jpg';
 import gpmcCover from '../../material/site/gpmc/cover.jpg';
 import gpmcPublikum from '../../material/site/gpmc/publikum.jpg';
 import blessCover from '../../material/site/blessthun/cover.jpg';
@@ -42,7 +48,7 @@ export interface Project {
   // Page title (before " | Jaime Imhof") and meta description (max 155 characters).
   seoTitle: string;
   beschreibung: string;
-  category: 'Video' | 'Fotografie';
+  category: 'Video' | 'Fotografie' | 'Grafik';
   industry: string;
   // A year or a period like '2024 – heute'.
   year: string;
@@ -81,6 +87,29 @@ export const projects: Project[] = [
     second: { src: ipaLager, alt: 'Förderband im automatischen Ersatzteillager, Standbild aus dem IPA-Film' },
     // The YouTube thumbnail (laptop with timecode) was the weakest frame; the workshop still is the strongest.
     youtube: { id: 'SxO9FMYEWg8', poster: ipaCover },
+  },
+  {
+    slug: 'flyer-opening-day',
+    title: 'Opening Day',
+    seoTitle: 'Opening Day, Flyer-Design mit KI',
+    beschreibung: 'Flyer-Design für einen erfundenen Bikepark: vier Entwürfe in Schwarzweiss und Farbe. Konzept und Auswahl von Jaime Imhof, Fotos mit KI erzeugt.',
+    category: 'Grafik',
+    industry: 'Sport',
+    year: '2026',
+    client: 'Persönliches Projekt',
+    role: 'Konzept, Art Direction, Auswahl, KI-Workflow',
+    text: 'Eigenes Übungsprojekt: ein A5-Flyer für den Saisonstart eines erfundenen Bikeparks, mit Vorder- und Rückseite. Vorbild war ein Pinterest-Board mit Run-Club-Flyern. Layouts und Fotos habe ich mit KI-Werkzeugen erarbeitet (Claude für das Layout, Gemini für die Bilder) und dabei geführt: Stil festgelegt, Ergebnisse ausgewählt, Fehler korrigiert.',
+    ausgangslage: 'Ich wollte Print-Gestaltung und einen sauberen KI-Ablauf an einem Projekt zeigen, ohne Kundenbriefing. Als Briefing diente mein eigenes Moodboard.',
+    vorgehen: 'Stil aus dem Moodboard abgeleitet, Fotos mit Gemini erzeugt, ein zu künstliches Bild neu erzeugt, Markenzeichen in den Fotos entfernt. Acht Layouts gebaut, auf Lesbarkeit und Abstände geprüft und drei davon weiterentwickelt, eines auch in Farbe.',
+    ergebnis: 'Vier Entwürfe in A5, schwarzweiss und farbig. Datum, Ort, Adresse und QR-Code sind Beispiele.',
+    cover: { src: flyerCover, alt: 'Flyer Opening Day in Schwarzweiss, Vorderseite mit Schuh im Staub und Rückseite mit Programm' },
+    second: { src: flyer02, alt: 'Derselbe Flyer in Farbe, Vorderseite mit orangem Infobalken und Rückseite mit Programm' },
+    gallery: [
+      { src: flyer03, alt: 'Variante mit senkrechtem Titel, Vorder- und Rückseite nebeneinander' },
+      { src: flyer04, alt: 'Orangefarbenes Rahmenposter mit grossen Zeitzahlen auf der Rückseite' },
+      { src: flyer05, alt: 'Vorderseite in Schwarzweiss neben der Vorderseite in Farbe' },
+      { src: flyer06, alt: 'Vier mit KI erzeugte Fotos: Schuh im Staub, Fahrer in Bewegungsunschärfe, Sprung im Gegenlicht und Rad in der Kurve' },
+    ],
   },
   {
     slug: 'event-video-gpmc',
