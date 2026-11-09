@@ -10,12 +10,16 @@ import flyer03 from '../../material/projects/flyer-opening-day/03.jpg';
 import flyer04 from '../../material/projects/flyer-opening-day/04.jpg';
 import flyer05 from '../../material/projects/flyer-opening-day/05.jpg';
 import flyer06 from '../../material/projects/flyer-opening-day/06.jpg';
-import sasCover from '../../material/projects/sas-2026-serie/cover.jpg';
-import sas02 from '../../material/projects/sas-2026-serie/02.jpg';
-import sas03 from '../../material/projects/sas-2026-serie/03.jpg';
-import sas04 from '../../material/projects/sas-2026-serie/04.jpg';
-import sas05 from '../../material/projects/sas-2026-serie/05.jpg';
-import sas06 from '../../material/projects/sas-2026-serie/06.jpg';
+import sasCover from '../../material/projects/swiss-automotive-show/cover.jpg';
+import sas02 from '../../material/projects/swiss-automotive-show/02.jpg';
+import sas03 from '../../material/projects/swiss-automotive-show/03.jpg';
+import sas04 from '../../material/projects/swiss-automotive-show/04.jpg';
+import sas05 from '../../material/projects/swiss-automotive-show/05.jpg';
+import sas06 from '../../material/projects/swiss-automotive-show/06.jpg';
+import sasApp from '../../material/projects/swiss-automotive-show/app-poster.jpg';
+import rueckCover from '../../material/projects/jahresrueckblick-2025/cover.jpg';
+import rueck02 from '../../material/projects/jahresrueckblick-2025/02.jpg';
+import rueckPoster from '../../material/projects/jahresrueckblick-2025/poster.jpg';
 import gpmcCover from '../../material/site/gpmc/cover.jpg';
 import gpmcPublikum from '../../material/site/gpmc/publikum.jpg';
 import blessCover from '../../material/site/blessthun/cover.jpg';
@@ -72,6 +76,8 @@ export interface Project {
   lead?: Img;
   second: Img;
   youtube?: { id: string; poster: ImageMetadata };
+  // LinkedIn post (activity ID from the post URL), loads only after a click. aspect: CSS ratio of the poster.
+  linkedin?: { id: string; poster: ImageMetadata; aspect?: string; title: string };
   // Photo projects: full width, two halves, full width.
   gallery?: [Img, Img, Img, Img];
 }
@@ -118,16 +124,17 @@ export const projects: Project[] = [
     ],
   },
   {
-    slug: 'sas-2026-serie',
-    title: 'SAS 2026 Serie',
-    seoTitle: 'SAS 2026 Serie, Social Media für Derendinger',
-    beschreibung: 'Social-Media-Serie für Derendinger zur Swiss Automotive Show 2026: sieben Beiträge, je eine Produktgruppe. Gestaltung und KI-Bilder von Jaime Imhof.',
+    slug: 'swiss-automotive-show',
+    title: 'Swiss Automotive Show',
+    seoTitle: 'Swiss Automotive Show, Social Media für Derendinger',
+    beschreibung: 'Social Media für Derendinger zur Swiss Automotive Show 2026: sieben Beiträge und ein Motion-Graphics-Video zur Event-App. Von Jaime Imhof.',
     category: 'Social Media',
     industry: 'Automotive',
     year: '2026',
     client: 'Derendinger',
-    role: 'Gestaltung, KI-Bilder',
-    text: 'Sieben Beiträge für den LinkedIn-Auftritt von Derendinger zur Swiss Automotive Show 2026, je einer pro Produktgruppe: Ersatzteile für Personenwagen und Nutzfahrzeuge, Werkstatteinrichtung, Verbände, Reifen, Carrosserie und Verbrauchsgüter. Ich habe die Beiträge gestaltet und die Bilder mit KI erzeugt.',
+    role: 'Gestaltung, Motion Graphics, KI-Bilder',
+    text: 'Beiträge für den LinkedIn-Auftritt von Derendinger zur Swiss Automotive Show 2026: eine Serie mit sieben Beiträgen, je einer pro Produktgruppe, und ein Kurzvideo zur neuen Event-App. Ich habe die Beiträge gestaltet, das Video als Motion Graphics umgesetzt und die Bilder der Serie mit KI erzeugt.',
+    linkedin: { id: '7473268699899199488', poster: sasApp, title: 'Event-App der Swiss Automotive Show, Video von Derendinger auf LinkedIn' },
     cover: { src: sasCover, alt: 'Zwei Beiträge der Serie: Ersatzteile für Personenwagen mit Bremsscheibe, Luftfilter und Lichtmaschine, und Ersatzteile für Nutzfahrzeuge mit einem Lastwagen' },
     second: { src: sas02, alt: 'Zwei Beiträge der Serie: Werkstatteinrichtung mit Werkzeugkoffer und Schlüsseln, und Verbände mit einer Metallkette' },
     gallery: [
@@ -136,6 +143,21 @@ export const projects: Project[] = [
       { src: sas05, alt: 'Nahaufnahme des KI-Bildes: Reifen mit Felge und leuchtend grünen Speichen' },
       { src: sas06, alt: 'Alle sieben Beiträge der Serie nebeneinander, gleiche Farbwelt mit grünem Verlauf und gelbgrünem Balken am linken Rand' },
     ],
+  },
+  {
+    slug: 'jahresrueckblick-2025',
+    title: 'Jahresrückblick 2025',
+    seoTitle: 'Jahresrückblick 2025, LinkedIn-Karussell für Derendinger',
+    beschreibung: 'Jahresrückblick 2025 für Derendinger: LinkedIn-Karussell mit sechs Seiten zu den Zahlen des Jahres. Gestaltung von Jaime Imhof.',
+    category: 'Social Media',
+    industry: 'Automotive',
+    year: '2025',
+    client: 'Derendinger',
+    role: 'Gestaltung',
+    text: 'Ein Karussell für LinkedIn mit sechs Seiten zu den Zahlen des Jahres bei Derendinger: 471-mal um die Welt, 400 Lieferfahrzeuge im Einsatz, 140 neue Partnergaragen, 660 800 Stunden unterwegs und 6474 Besucher an der Swiss Automotive Show. Ich habe es gestaltet.',
+    linkedin: { id: '7411692531496898560', poster: rueckPoster, aspect: '390 / 487', title: 'Jahresrückblick 2025 von Derendinger, Karussell auf LinkedIn' },
+    cover: { src: rueckCover, alt: 'Drei Seiten des Karussells: Erde mit grünem Band und 471-mal um die Welt, gestapelte Lieferwagen mit 400 im Einsatz, Schweizer Karte mit 140 neuen Partnergaragen' },
+    second: { src: rueck02, alt: 'Drei weitere Seiten des Karussells: Anzeige mit 660 800 Stunden, Messegelände mit 6474 Besuchern und ein Porsche als Strichzeichnung mit Neujahrswunsch' },
   },
   {
     slug: 'event-video-gpmc',
