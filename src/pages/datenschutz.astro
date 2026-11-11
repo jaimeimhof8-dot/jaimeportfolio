@@ -3,10 +3,10 @@ import Base from '../layouts/Base.astro';
 import { contact, mailto, person } from '../config';
 
 // Update when the content changes.
-const stand = '18. Oktober 2026';
+const stand = '9. November 2026';
 ---
 
-<Base title="Datenschutz" description="Datenschutz auf der Website von Jaime Imhof: keine Cookies, kein Tracking, YouTube erst nach Klick.">
+<Base title="Datenschutz" description="Datenschutz auf der Website von Jaime Imhof: keine Cookies, kein Tracking, YouTube und LinkedIn erst nach Klick.">
   <article class="legal">
     <h1 class="t-h2">Datenschutz</h1>
     <p class="stand">Stand: {stand}</p>
@@ -19,6 +19,9 @@ const stand = '18. Oktober 2026';
 
     <h2 class="t-h4">YouTube-Videos</h2>
     <p>Auf Projektseiten sind Videos von YouTube eingebettet. Sie laden erst, wenn du auf das Vorschaubild klickst, und dann über <span class="nowrap">youtube-nocookie.com</span>. Erst ab diesem Klick verbindet sich dein Browser mit YouTube. Es gelten die Datenschutzbestimmungen von YouTube.</p>
+
+    <h2 class="t-h4">LinkedIn-Beiträge</h2>
+    <p>Auf einzelnen Projektseiten kannst du Beiträge von LinkedIn laden. Auch sie laden erst, wenn du auf «Beitrag von LinkedIn laden» klickst. Erst ab diesem Klick verbindet sich dein Browser mit LinkedIn. Es gelten die Datenschutzbestimmungen von LinkedIn.</p>
 
     <h2 class="t-h4">Kontakt</h2>
     <p>Wenn du mir schreibst, verwende ich deine E-Mail-Adresse und deine Nachricht nur, um dir zu antworten. Du erreichst mich unter <a href={mailto}>{contact.email}</a> oder telefonisch unter <a href={contact.phoneHref}>{contact.phoneDisplay}</a>.</p>

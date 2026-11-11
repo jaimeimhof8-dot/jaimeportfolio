@@ -2,6 +2,7 @@
 import { Picture, getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import YouTube from '../../components/YouTube.astro';
+import LinkedInPost from '../../components/LinkedInPost.astro';
 import { projects, nextProjects, type Project, type Img } from '../../data/projects';
 
 export function getStaticPaths() {
@@ -56,6 +57,10 @@ const pic = (img: Img, wide = false) => ({
 
     {p.youtube && (
       <div class="video"><YouTube id={p.youtube.id} title={p.title} poster={p.youtube.poster} /></div>
+    )}
+
+    {p.linkedin && (
+      <div class="video"><LinkedInPost id={p.linkedin.id} title={p.linkedin.title} poster={p.linkedin.poster} aspect={p.linkedin.aspect} /></div>
     )}
 
     {p.gallery && (
