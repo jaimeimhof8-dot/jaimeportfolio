@@ -251,8 +251,9 @@ export const projects: Project[] = [
   },
 ];
 
-// Home shows the first four.
-export const featured = projects.slice(0, 4);
+// Home shows video first: IPA film, GPMC, Capoeira, then the motion graphics project.
+const featuredSlugs = ['ipa-derendinger', 'event-video-gpmc', 'capoeira-capu', 'swiss-automotive-show'];
+export const featured = featuredSlugs.map((slug) => projects.find((p) => p.slug === slug)!);
 
 // "Weitere Projekte": the next two in the list, never the project itself.
 export const nextProjects = (slug: string) => {
